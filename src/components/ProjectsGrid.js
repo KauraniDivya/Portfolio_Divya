@@ -1,294 +1,555 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  X, ExternalLink, Github, Globe, 
-  Rocket, Terminal, Brain, Database, 
-  Server, Code, Monitor, Cpu,
-  ChevronRight, Lightbulb, Link
+  Trophy, Code, Rocket, Terminal, Brain, Database, 
+  Medal, Star, Award, Book, Lightbulb, CheckCircle,
+  Globe, Server, Monitor, Layout, Github, Play, ExternalLink
 } from 'lucide-react';
 
-// Project categories for filtering
 const categories = [
-  "All", "Web App", "Mobile", "AI/ML", "DevOps", "Backend"
+  { id: 'all', label: 'All' },
+  { id: 'hackathons', label: 'Hackathons' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'certifications', label: 'Certifications' },
+  { id: 'events', label: 'Events' }
 ];
 
-// Extended project data
-const projects = [
-  {
-    id: 1,
-    title: "StreamIt!",
-    category: "Web App",
-    shortDesc: "Next-gen video streaming platform",
-    fullDesc: "A scalable streaming platform revolutionizing live content delivery with advanced features and real-time analytics.",
-    image: "/api/placeholder/800/600",
-    icon: Globe,
-    color: "from-sky-400 to-blue-500",
-    tech: ["Docker", "RTMP", "WebRTC", "Redis", "AWS"],
-    features: [
-      "Live streaming with < 2s latency",
-      "Auto-scaling infrastructure",
-      "Real-time analytics dashboard",
-      "Multi-device synchronization",
-      "Advanced content delivery network"
-    ],
-    metrics: [
-      { label: "Active Users", value: "50K+" },
-      { label: "Uptime", value: "99.9%" },
-      { label: "Stream Quality", value: "4K" }
-    ],
-    links: {
-      github: "https://github.com",
-      live: "https://example.com",
-      docs: "https://docs.example.com"
+const achievements = [
+    {
+      id: 1,
+      heroimage:'/api/placeholder/800/500',
+      type: 'hackathons',
+      title: 'Smart India Hackathon 2024 Winner',
+      event: 'Smart India Hackathon',
+      date: '2024',
+      location: 'IIT Gandhinagar',
+      image: '/api/placeholder/800/500',
+      description: 'Led the winning team in developing a comprehensive Alumni Association platform for strengthening the bond between alumni and institutions.',
+      stack: ['React', 'Node.js', 'MongoDB', 'Express'],
+      highlights: [
+        'First Prize Winner at IIT Gandhinagar',
+        'Led a team of 6 members',
+        'Built Alumni Platform',
+        'Real-world implementation',
+        'Government of Gujarat Problem Statement'
+      ],
+      links: {
+        github: '#',
+        demo: '#'
+      }
+    },
+    {
+      id: 2,
+      heroimage:'/api/placeholder/800/500',
+      type: 'hackathons',
+      title: 'Odoo Combat 2024 Finalist',
+      event: 'Odoo Coding Combat',
+      date: '2024',
+      image: '/api/placeholder/800/500',
+      description: 'Competed among 600+ teams, implemented Diet Recommendation System and Library Management System',
+      stack: ['React', 'Redux', 'Node.js', 'MongoDB', 'Firebase', 'Tailwind', 'Chart.js'],
+      highlights: [
+        'Top 150 Teams among 2500+ participants',
+        'Built Diet Recommendation System',
+        'Developed Library Management System',
+        'Implemented real-time features',
+        'Used Gemini 1.5 Turbo for AI features'
+      ]
+    },
+    {
+      id: 3,
+      heroimage:'/api/placeholder/800/500',
+      type: 'certifications',
+      title: 'NPTEL Star',
+      event: 'NPTEL Discipline Stars',
+      date: '2024',
+      image: '/api/placeholder/800/500',
+      description: 'Recognized as NPTEL Star for completing five programming domain courses with excellence',
+      stack: ['DSA in Java', 'Cloud Computing', 'Programming in Java',  'Database Management System', 'Introduction to Machine Learning'],
+      highlights: [
+        'Completed 5 Programming Domain Courses',
+        'Invited to NPTEL Stars Interactive Session at IIT Bombay',
+        'Recognition for academic excellence',
+        'Free T-shirt as appreciation token'
+      ],
+      courses: [
+        'Data Structures and Algorithms with Java',
+        'Database Management Systems',
+        'Programming in Java',
+        'Introduction to Machine Learning',
+        'Cloud Computing'
+      ]
+    },
+    {
+      id: 4,
+      heroimage:'/api/placeholder/800/500',
+      type: 'projects',
+      title: 'StreamIt!',
+      category: 'Streaming Platform',
+      image: '/api/placeholder/800/500',
+      description: 'Robust, scalable streaming application for YouTube live streaming and recording',
+      stack: ['Docker', 'FFmpeg', 'RTMP', 'Socket.io'],
+      features: [
+        'Live YouTube Streaming',
+        'Video Recording & Download',
+        'Container Isolation',
+        'Real-time Communication'
+      ],
+      highlights: [
+        'Containerized Application',
+        'Efficient Video Processing',
+        'Real-time Streaming Capabilities',
+        'Scalable Architecture'
+      ],
+      links: {
+        github: '#',
+        live: '#',
+        demo: '#'
+      }
+    },
+    {
+      id: 5,
+      heroimage:'/api/placeholder/800/500',
+      type: 'projects',
+      title: 'IPL Dashboard',
+      category: 'Sports Analytics',
+      image: '/api/placeholder/800/500',
+      description: 'Dynamic platform providing real-time updates and comprehensive IPL information using web scraping',
+      stack: ['React', 'Node.js', 'Cheerio', 'Puppeteer', 'Tailwind'],
+      features: [
+        'Live Scores',
+        'IPL Points Table',
+        'Team Information',
+        'Stadium Details',
+        'Match Results & Fixtures'
+      ],
+      links: {
+        github: '#',
+        live: '#',
+        docs: '#',
+        demo: '#'
+      }
+    },
+    {
+      id: 6,
+      heroimage:'/api/placeholder/800/500',
+      type: 'projects',
+      title: 'VisioBrain',
+      category: 'AI Platform',
+      image: '/api/placeholder/800/500',
+      description: 'Revolutionary one-click platform for data analysis with AI capabilities',
+      stack: ['MERN Stack', 'Python', 'Firebase', 'Machine Learning'],
+      features: [
+        'One-Click Analysis',
+        'Universal Data Format Support',
+        'Automated Operations',
+        'Interactive Visualizations',
+        'Custom Analysis Options'
+      ],
+      highlights: [
+        'Automated Data Analysis',
+        'ML Model Integration',
+        'Visual Data Storytelling',
+        'Security Implementation'
+      ],
+      links: {
+        demo: '#',
+        presentation: '#'
+      }
+    },
+    {
+      id: 7,
+      heroimage:'/api/placeholder/800/500',
+      type: 'events',
+      title: 'Xenesis 2024',
+      event: 'College Tech Fest',
+      date: '2024',
+      image: '/api/placeholder/800/500',
+      description: 'Contributed to the success of Xenesis 2024 as part of the Website Committee',
+      highlights: [
+        'Website Committee Member',
+        'ReactJS Development',
+        'Animation Implementation',
+        'Second Prize in Poster Making',
+        'First Prize in X-Avishkar'
+      ],
+      stack: ['React', 'Animation Libraries', 'Web Development']
+    },
+    {
+      id: 8,
+      heroimage:'/api/placeholder/800/500',
+      type: 'projects',
+      title: 'ColleGPT',
+      category: 'Education Platform',
+      image: '/api/placeholder/800/500',
+      description: 'Ultimate College Companion revolutionizing academic journey with comprehensive resources',
+      stack: ['MERN Stack', 'MongoDB', 'Express', 'React', 'Node.js'],
+      features: [
+        'गीता पाठ Integration',
+        'Xclusive Notes',
+        'Real-Time Event Updates',
+        'Handy Cheat Sheets',
+        'In-Depth Learning Guides'
+      ],
+      highlights: [
+        'User-Friendly Interface',
+        'Comprehensive Study Materials',
+        'Community Features',
+        'Event Management'
+      ],
+      links: {
+        live: 'www.collegpt.com'
+      }
+    },
+    {
+      id: 9,
+      heroimage:'/api/placeholder/800/500',
+      type: 'hackathons',
+      title: 'SIH 2023 Finalist',
+      event: 'Smart India Hackathon',
+      date: '2023',
+      image: '/api/placeholder/800/500',
+      description: 'Created UNITEBHARAT - platform for student projects in Smart Education domain',
+      location: 'Manipal Institute of Technology Jaipur',
+      stack: ['React', 'Node.js', 'MongoDB', 'Express', 'Recharts'],
+      highlights: [
+        '36+ Hour Hackathon',
+        'Smart Education Domain',
+        'Problem Statement SIH-1369',
+        'Live Session with PM',
+        'Collaborative Development'
+      ]
+    },
+    {
+      id: 10,
+      heroimage:'/api/placeholder/800/500',
+      type: 'hackathons',
+      title: 'Break The Barrier Winner',
+      event: 'BTB Hackathon',
+      date: '2022',
+      image: '/api/placeholder/800/500',
+      description: 'Won national level hackathon under MongoDB category with college canteen website',
+      stack: ['HTML', 'CSS', 'JavaScript', 'Node.js', 'MongoDB'],
+      highlights: [
+        'National Level Winner',
+        'MongoDB Category',
+        'Built "THE HIDE OUT"',
+        'Full-Stack Implementation'
+      ],
+      links: {
+        github: '#'
+      }
     }
-  },
-  // Add more projects here...
-];
+  ];
 
-const ProjectModal = ({ project, onClose }) => {
-  if (!project) return null;
+const AchievementsShowcase = () => {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [hoveredCard, setHoveredCard] = useState(null);
+  const containerRef = useRef(null);
 
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        className="relative max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto rounded-2xl bg-zinc-900 border border-white/10"
-        onClick={e => e.stopPropagation()}
-      >
-        {/* Modal Header with Gradient */}
-        <div className={`p-8 bg-gradient-to-r ${project.color} rounded-t-2xl relative`}>
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/20 
-                     flex items-center justify-center text-white/80 hover:bg-black/40 transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
-          
-          <div className="flex items-start gap-4">
-            <div className="p-3 rounded-xl bg-white/10">
-              <project.icon className="w-8 h-8 text-white" />
-            </div>
-            <div>
-              <h3 className="text-2xl font-light text-white mb-2">{project.title}</h3>
-              <div className="text-white/80">{project.category}</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Modal Content */}
-        <div className="p-8 space-y-8">
-          {/* Project Image */}
-          <div className="rounded-xl overflow-hidden">
-            <img 
-              src={project.image} 
-              alt={project.title}
-              className="w-full h-64 object-cover"
-            />
-          </div>
-
-          {/* Description */}
-          <div className="space-y-4">
-            <h4 className="text-xl text-white font-light">Overview</h4>
-            <p className="text-zinc-400 leading-relaxed">{project.fullDesc}</p>
-          </div>
-
-          {/* Tech Stack */}
-          <div className="space-y-4">
-            <h4 className="text-xl text-white font-light">Technologies</h4>
-            <div className="flex flex-wrap gap-2">
-              {project.tech.map((tech) => (
-                <span 
-                  key={tech}
-                  className="px-4 py-2 rounded-full bg-white/5 text-white/80 text-sm"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Key Features */}
-          <div className="space-y-4">
-            <h4 className="text-xl text-white font-light">Key Features</h4>
-            <div className="grid md:grid-cols-2 gap-4">
-              {project.features.map((feature) => (
-                <div 
-                  key={feature}
-                  className="flex items-center gap-3 text-zinc-400"
-                >
-                  <Lightbulb className="w-4 h-4 text-teal-400" />
-                  <span>{feature}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Metrics */}
-          <div className="grid grid-cols-3 gap-4">
-            {project.metrics.map((metric) => (
-              <div 
-                key={metric.label}
-                className="p-4 rounded-xl bg-white/5 text-center"
-              >
-                <div className="text-2xl text-white mb-1">{metric.value}</div>
-                <div className="text-sm text-zinc-400">{metric.label}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Links */}
-          <div className="flex gap-4 pt-4">
-            {Object.entries(project.links).map(([key, url]) => (
-              <a
-                key={key}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 
-                         text-white hover:bg-white/10 transition-colors"
-              >
-                {key === 'github' && <Github className="w-4 h-4" />}
-                {key === 'live' && <Globe className="w-4 h-4" />}
-                {key === 'docs' && <Terminal className="w-4 h-4" />}
-                <span className="capitalize">{key}</span>
-                <ExternalLink className="w-4 h-4" />
-              </a>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-};
-
-const ProjectsGrid = () => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedProject, setSelectedProject] = useState(null);
-
-  const filteredProjects = projects.filter(
-    project => selectedCategory === "All" || project.category === selectedCategory
+  const filteredAchievements = achievements.filter(
+    item => selectedCategory === 'all' || item.type === selectedCategory
   );
 
   return (
-    <section className="py-32 relative">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(45,212,191,0.05),rgba(0,0,0,0))]" />
-      
+    <div className="min-h-screen bg-[#0A0A0A] text-white py-20">
       <div className="max-w-7xl mx-auto px-8">
-        {/* Header */}
+        {/* Header with animated text */}
         <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          className="flex items-center gap-4 mb-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-16"
         >
-          <Rocket className="text-teal-400 w-6 h-6" />
-          <h2 className="text-4xl font-light text-white">Featured Projects</h2>
+          <Trophy className="w-12 h-12 text-teal-400 mx-auto mb-6" />
+          <h1 className="text-5xl font-light mb-4">Achievements & Projects</h1>
+          <p className="text-zinc-400 max-w-2xl mx-auto">
+            A showcase of hackathon victories, innovative projects, and technical accomplishments
+          </p>
         </motion.div>
 
-        {/* Categories */}
-        <div className="flex flex-wrap gap-4 mb-12">
+        {/* Category Navigation */}
+        <div className="flex justify-center gap-4 mb-16 overflow-x-auto pb-4">
           {categories.map((category) => (
             <motion.button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-2 rounded-full text-sm transition-all
-                       ${selectedCategory === category 
-                         ? 'bg-teal-400 text-black' 
-                         : 'bg-white/5 text-white hover:bg-white/10'}`}
+              key={category.id}
+              onClick={() => setSelectedCategory(category.id)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              className={`px-6 py-3 rounded-full text-sm transition-all whitespace-nowrap
+                ${selectedCategory === category.id 
+                  ? 'bg-teal-400 text-black' 
+                  : 'bg-zinc-900/50 text-white hover:bg-zinc-800'}`}
             >
-              {category}
+              {category.label}
             </motion.button>
           ))}
         </div>
 
-        {/* Projects Grid */}
+        {/* Achievement Grid */}
         <motion.div 
           layout
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => (
+            {filteredAchievements.map((item) => (
               <motion.div
-                key={project.id}
+                key={item.id}
                 layout
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 whileHover={{ y: -5 }}
-                className="group cursor-pointer"
-                onClick={() => setSelectedProject(project)}
+                className="group cursor-pointer relative"
+                onClick={() => setSelectedItem(item)}
+                onMouseEnter={() => setHoveredCard(item.id)}
+                onMouseLeave={() => setHoveredCard(null)}
               >
-                <div className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-white/5 
-                             overflow-hidden hover:border-teal-500/20 transition-colors">
-                  {/* Project Card Content */}
-                  <div className="relative aspect-video overflow-hidden">
-                    <img 
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-500
-                               group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/50 to-transparent" />
-                    
-                    <div className="absolute bottom-0 left-0 p-6">
-                      <project.icon className="w-8 h-8 text-teal-400 mb-3" />
-                      <h3 className="text-xl text-white mb-1">{project.title}</h3>
-                      <div className="text-zinc-400 text-sm">{project.category}</div>
+                <div className="relative bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-white/5 
+                             overflow-hidden hover:border-teal-500/20 transition-all">
+                  {/* Achievement Card Content */}
+                  <div className="p-8">
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-6">
+                      <div>
+                        {item.type === 'hackathons' && <Trophy className="w-8 h-8 text-teal-400" />}
+                        {item.type === 'projects' && <Code className="w-8 h-8 text-teal-400" />}
+                        {item.type === 'certifications' && <Award className="w-8 h-8 text-teal-400" />}
+                        {item.type === 'events' && <Star className="w-8 h-8 text-teal-400" />}
+                      </div>
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: hoveredCard === item.id ? 1 : 0 }}
+                        className="text-teal-400"
+                      >
+                        View Details →
+                      </motion.div>
                     </div>
-                  </div>
-
-                  <div className="p-6 pt-4">
-                    <p className="text-zinc-400 text-sm mb-4">{project.shortDesc}</p>
+<img src={item.heroimage} alt={item.title} className="w-full h-48 object-cover mb-6 rounded-xl" />
+                    {/* Title */}
+                    <h3 className="text-xl font-light text-white mb-2">{item.title}</h3>
+                    {item.event && (
+                      <div className="text-teal-400 text-sm mb-4">{item.event}</div>
+                    )}
                     
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.tech.slice(0, 3).map((tech) => (
+                    {/* Description */}
+                    <p className="text-zinc-400 text-sm mb-6 line-clamp-2">
+                      {item.description}
+                    </p>
+
+                    {/* Tech Stack/Highlights */}
+                    <div className="flex flex-wrap gap-2">
+                      {item.stack?.slice(0, 3).map((tech) => (
                         <span 
                           key={tech}
-                          className="px-3 py-1 bg-white/5 text-white/70 rounded-full text-xs"
+                          className="px-3 py-1 bg-zinc-800/50 text-zinc-400 rounded-full text-xs"
                         >
                           {tech}
                         </span>
                       ))}
-                      {project.tech.length > 3 && (
-                        <span className="px-3 py-1 text-white/50 text-xs">
-                          +{project.tech.length - 3} more
+                      {item.stack?.length > 3 && (
+                        <span className="px-3 py-1 text-zinc-500 text-xs">
+                          +{item.stack.length - 3} more
                         </span>
                       )}
                     </div>
-
-                    <button className="flex items-center gap-2 text-teal-400 text-sm group">
-                      <span>View Details</span>
-                      <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                    </button>
                   </div>
                 </div>
               </motion.div>
             ))}
           </AnimatePresence>
         </motion.div>
-      </div>
 
-      {/* Project Modal */}
-      <AnimatePresence>
-        {selectedProject && (
-          <ProjectModal 
-            project={selectedProject} 
-            onClose={() => setSelectedProject(null)} 
-          />
-        )}
-      </AnimatePresence>
-    </section>
+        {/* Detailed Modal */}
+        <AnimatePresence>
+          {selectedItem && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+              onClick={() => setSelectedItem(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="relative max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto rounded-2xl bg-zinc-900 border border-white/10"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Header with Gradient */}
+                <div className={`relative p-8 bg-gradient-to-r from-teal-500/10 to-emerald-500/10 rounded-t-2xl`}>
+                  <button
+                    onClick={() => setSelectedItem(null)}
+                    className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 
+                             flex items-center justify-center text-white/80 hover:bg-white/10 transition-colors"
+                  >
+                    <p className="w-5 h-5">X</p> 
+                  </button>
+                  
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-xl bg-white/5">
+                      {selectedItem.type === 'hackathons' && <Trophy className="w-8 h-8 text-teal-400" />}
+                      {selectedItem.type === 'projects' && <Code className="w-8 h-8 text-teal-400" />}
+                      {selectedItem.type === 'certifications' && <Award className="w-8 h-8 text-teal-400" />}
+                      {selectedItem.type === 'events' && <Star className="w-8 h-8 text-teal-400" />}
+                    </div>
+                    <div>
+                      <div className="text-teal-400 text-sm tracking-wide mb-2">
+                        {selectedItem.event || selectedItem.category}
+                      </div>
+                      <h3 className="text-2xl font-light text-white">{selectedItem.title}</h3>
+                      {selectedItem.date && (
+                        <div className="text-zinc-400 text-sm mt-2">{selectedItem.date}</div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content Sections */}
+                <div className="p-8 space-y-8">
+                  {/* Description */}
+                  <div className="space-y-4">
+                    <h4 className="text-lg text-white font-light flex items-center gap-2">
+                      <Terminal className="w-4 h-4 text-teal-400" />
+                      Overview
+                    </h4>
+                    <p className="text-zinc-400 leading-relaxed">
+                      {selectedItem.description}
+                    </p>
+                  </div>
+
+                  {/* Key Highlights */}
+                  {selectedItem.highlights && (
+                    <div className="space-y-4">
+                      <h4 className="text-lg text-white font-light flex items-center gap-2">
+                        <Lightbulb className="w-4 h-4 text-teal-400" />
+                        Key Highlights
+                      </h4>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        {selectedItem.highlights.map((highlight, index) => (
+                          <motion.div
+                            key={index}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                            className="flex items-center gap-3"
+                          >
+                            <CheckCircle className="w-4 h-4 text-teal-400 shrink-0" />
+                            <span className="text-zinc-400">{highlight}</span>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Tech Stack */}
+                  {selectedItem.stack && (
+                    <div className="space-y-4">
+                      <h4 className="text-lg text-white font-light flex items-center gap-2">
+                        <Code className="w-4 h-4 text-teal-400" />
+                        Technologies Used
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedItem.stack.map((tech, index) => (
+                          <motion.span
+                            key={tech}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: index * 0.1 }}
+                            className="px-4 py-2 rounded-full bg-white/5 text-white/80 text-sm
+                                     hover:bg-white/10 transition-colors"
+                          >
+                            {tech}
+                          </motion.span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Features for Projects */}
+                  {selectedItem.features && (
+                    <div className="space-y-4">
+                      <h4 className="text-lg text-white font-light flex items-center gap-2">
+                        <Rocket className="w-4 h-4 text-teal-400" />
+                        Key Features
+                      </h4>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        {selectedItem.features.map((feature, index) => (
+                          <motion.div
+                            key={index}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                            className="flex items-center gap-3"
+                          >
+                            <div className="w-1.5 h-1.5 rounded-full bg-teal-400" />
+                            <span className="text-zinc-400">{feature}</span>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Image Gallery */}
+                  {selectedItem.images && (
+                    <div className="space-y-4">
+                      <h4 className="text-lg text-white font-light flex items-center gap-2">
+                        <Layout className="w-4 h-4 text-teal-400" />
+                        Gallery
+                      </h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        {selectedItem.images.map((image, index) => (
+                          <motion.div
+                            key={index}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: index * 0.2 }}
+                            className="rounded-xl overflow-hidden"
+                          >
+                            <img 
+                              src={image}
+                              alt={`${selectedItem.title} ${index + 1}`}
+                              className="w-full h-48 object-cover hover:scale-105 transition-transform"
+                            />
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Links */}
+                  {selectedItem.links && (
+                    <div className="flex flex-wrap gap-4 pt-4">
+                      {Object.entries(selectedItem.links).map(([key, url], index) => (
+                        <motion.a
+                          key={key}
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 
+                                   text-white hover:bg-white/10 transition-colors"
+                        >
+                          {key === 'github' && <Github className="w-4 h-4" />}
+                          {key === 'live' && <Globe className="w-4 h-4" />}
+                          {key === 'demo' && <Play className="w-4 h-4" />}
+                          <span className="capitalize">{key}</span>
+                          <ExternalLink className="w-4 h-4" />
+                        </motion.a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
   );
 };
 
-export default ProjectsGrid;
+export default AchievementsShowcase;
