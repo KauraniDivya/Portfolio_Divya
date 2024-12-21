@@ -17,7 +17,7 @@ const categories = [
 const achievements = [
     {
       id: 1,
-      heroimage:'/api/placeholder/800/500',
+      heroimage:'https://i.ibb.co/WvgQrNj/ab724798-c6bb-47b8-99f2-95712faf5dac.jpg',
       type: 'hackathons',
       title: 'Smart India Hackathon 2024 Winner',
       event: 'Smart India Hackathon',
@@ -40,12 +40,12 @@ const achievements = [
     },
     {
       id: 2,
-      heroimage:'/api/placeholder/800/500',
+      heroimage:'https://i.ibb.co/Nn7ZzT9/odoo.png',
       type: 'hackathons',
       title: 'Odoo Combat 2024 Finalist',
       event: 'Odoo Coding Combat',
       date: '2024',
-      image: '/api/placeholder/800/500',
+      image: 'https://i.ibb.co/Nn7ZzT9/odoo.png',
       description: 'Competed among 600+ teams, implemented Diet Recommendation System and Library Management System',
       stack: ['React', 'Redux', 'Node.js', 'MongoDB', 'Firebase', 'Tailwind', 'Chart.js'],
       highlights: [
@@ -58,12 +58,12 @@ const achievements = [
     },
     {
       id: 3,
-      heroimage:'/api/placeholder/800/500',
+      heroimage:'https://i.ibb.co/s61Mx2S/nptel.png',
       type: 'certifications',
       title: 'NPTEL Star',
       event: 'NPTEL Discipline Stars',
       date: '2024',
-      image: '/api/placeholder/800/500',
+      image: 'https://i.ibb.co/s61Mx2S/nptel.png',
       description: 'Recognized as NPTEL Star for completing five programming domain courses with excellence',
       stack: ['DSA in Java', 'Cloud Computing', 'Programming in Java',  'Database Management System', 'Introduction to Machine Learning'],
       highlights: [
@@ -82,11 +82,11 @@ const achievements = [
     },
     {
       id: 4,
-      heroimage:'/api/placeholder/800/500',
+      heroimage:'https://i.ibb.co/c28GMz2/streamit.jpg',
       type: 'projects',
       title: 'StreamIt!',
       category: 'Streaming Platform',
-      image: '/api/placeholder/800/500',
+      image: 'https://i.ibb.co/c28GMz2/streamit.jpg',
       description: 'Robust, scalable streaming application for YouTube live streaming and recording',
       stack: ['Docker', 'FFmpeg', 'RTMP', 'Socket.io'],
       features: [
@@ -109,11 +109,11 @@ const achievements = [
     },
     {
       id: 5,
-      heroimage:'/api/placeholder/800/500',
+      heroimage:'https://i.ibb.co/WxjtBc3/Screenshot-2024-12-21-at-3-03-14-PM.png',
       type: 'projects',
       title: 'IPL Dashboard',
       category: 'Sports Analytics',
-      image: '/api/placeholder/800/500',
+      image: 'https://i.ibb.co/WxjtBc3/Screenshot-2024-12-21-at-3-03-14-PM.png',
       description: 'Dynamic platform providing real-time updates and comprehensive IPL information using web scraping',
       stack: ['React', 'Node.js', 'Cheerio', 'Puppeteer', 'Tailwind'],
       features: [
@@ -132,11 +132,11 @@ const achievements = [
     },
     {
       id: 6,
-      heroimage:'/api/placeholder/800/500',
+      heroimage:'https://i.ibb.co/fqWC06Z/Screenshot-2024-12-21-at-3-08-06-PM.png',
       type: 'projects',
       title: 'VisioBrain',
       category: 'AI Platform',
-      image: '/api/placeholder/800/500',
+      image: 'https://i.ibb.co/fqWC06Z/Screenshot-2024-12-21-at-3-08-06-PM.png',
       description: 'Revolutionary one-click platform for data analysis with AI capabilities',
       stack: ['MERN Stack', 'Python', 'Firebase', 'Machine Learning'],
       features: [
@@ -159,12 +159,12 @@ const achievements = [
     },
     {
       id: 7,
-      heroimage:'/api/placeholder/800/500',
+      heroimage:'https://i.ibb.co/yFcjvFr/xenesisp.jpg',
       type: 'events',
       title: 'Xenesis 2024',
       event: 'College Tech Fest',
       date: '2024',
-      image: '/api/placeholder/800/500',
+      image: 'https://i.ibb.co/yFcjvFr/xenesisp.jpg',
       description: 'Contributed to the success of Xenesis 2024 as part of the Website Committee',
       highlights: [
         'Website Committee Member',
@@ -177,11 +177,11 @@ const achievements = [
     },
     {
       id: 8,
-      heroimage:'/api/placeholder/800/500',
+      heroimage:'https://i.ibb.co/B46JGH1/collegpt.png',
       type: 'projects',
       title: 'ColleGPT',
       category: 'Education Platform',
-      image: '/api/placeholder/800/500',
+      image: 'https://i.ibb.co/B46JGH1/collegpt.png',
       description: 'Ultimate College Companion revolutionizing academic journey with comprehensive resources',
       stack: ['MERN Stack', 'MongoDB', 'Express', 'React', 'Node.js'],
       features: [
@@ -203,12 +203,12 @@ const achievements = [
     },
     {
       id: 9,
-      heroimage:'/api/placeholder/800/500',
+      heroimage:'https://i.ibb.co/LxmR9v9/Screenshot-2024-12-21-at-5-19-47-PM.png',
       type: 'hackathons',
       title: 'SIH 2023 Finalist',
       event: 'Smart India Hackathon',
       date: '2023',
-      image: '/api/placeholder/800/500',
+      image: 'https://i.ibb.co/LxmR9v9/Screenshot-2024-12-21-at-5-19-47-PM.png',
       description: 'Created UNITEBHARAT - platform for student projects in Smart Education domain',
       location: 'Manipal Institute of Technology Jaipur',
       stack: ['React', 'Node.js', 'MongoDB', 'Express', 'Recharts'],
@@ -222,12 +222,12 @@ const achievements = [
     },
     {
       id: 10,
-      heroimage:'/api/placeholder/800/500',
+      heroimage:'https://i.ibb.co/7jR1Mn0/btb.png',
       type: 'hackathons',
       title: 'Break The Barrier Winner',
       event: 'BTB Hackathon',
       date: '2022',
-      image: '/api/placeholder/800/500',
+      image: 'https://i.ibb.co/7jR1Mn0/btb.png',
       description: 'Won national level hackathon under MongoDB category with college canteen website',
       stack: ['HTML', 'CSS', 'JavaScript', 'Node.js', 'MongoDB'],
       highlights: [
