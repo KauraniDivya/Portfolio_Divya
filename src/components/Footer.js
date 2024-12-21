@@ -44,14 +44,14 @@ const StyledFooter = () => {
   ];
 
   return (
-    <footer className="relative w-full bg-[#0A0A0A] overflow-hidden pt-20 ">
+    <footer className="relative w-full bg-[#0A0A0A] overflow-hidden pt-20">
       {/* Quote Section */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         className="text-center mb-8"
       >
-        <p className="text-zinc-400 text-xl md:text-2xl font-light tracking-wide">
+        <p className="text-zinc-400 text-2xl md:text-4xl font-light tracking-wide font-serif">
           "Learning, Living, and Leveling Up."
         </p>
       </motion.div>
@@ -88,33 +88,36 @@ const StyledFooter = () => {
         ))}
       </div>
 
-      {/* Let's Talk Section - Hidden on Mobile */}
-      <div className="hidden md:flex justify-between items-center px-20 inset-0 bg-gradient-to-t from-[#642f70] via-transparent to-transparent ">
+      {/* Let's Talk Section */}
+      <div className="flex justify-between items-center px-4 md:px-20 inset-0 bg-gradient-to-t from-[#642f70] via-transparent to-transparent">
+        {/* LET'S text - hidden on mobile */}
         <motion.h2
           initial={{ opacity: 0, x: -100 }}
           whileInView={{ opacity: 1, x: 0 }}
-          className="text-[180px] leading-none text-white font-medium drop-shadow-xl"
+          className="hidden md:block text-[180px] leading-none text-white font-medium drop-shadow-xl"
         >
           LET'S
         </motion.h2>
         
+        {/* Avatar - visible on all screens */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="relative w-96 h-96 "
+          className="relative w-64 h-64 md:w-96 md:h-96 mx-auto md:mx-0"
         >
           <img 
             src="https://i.ibb.co/71jpqJF/avatar.png" 
             alt="Divya Kaurani" 
             className="w-full h-full object-cover z-10"
           />
-          <div className="absolute " />
+          <div className="absolute" />
         </motion.div>
 
+        {/* TALK text - hidden on mobile */}
         <motion.h2
           initial={{ opacity: 0, x: 100 }}
           whileInView={{ opacity: 1, x: 0 }}
-          className="text-[180px] leading-none text-white font-medium drop-shadow-xl"
+          className="hidden md:block text-[180px] leading-none text-white font-medium drop-shadow-xl"
         >
           TALK
         </motion.h2>
