@@ -241,315 +241,292 @@ const achievements = [
       }
     }
   ];
-
-const AchievementsShowcase = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [hoveredCard, setHoveredCard] = useState(null);
-  const containerRef = useRef(null);
-
-  const filteredAchievements = achievements.filter(
-    item => selectedCategory === 'all' || item.type === selectedCategory
-  );
-
-  return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white py-20">
-      <div className="max-w-7xl mx-auto px-8">
-        {/* Header with animated text */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <Trophy className="w-12 h-12 text-teal-400 mx-auto mb-6" />
-          <h1 className="text-5xl font-light mb-4">Achievements & Projects</h1>
-          <p className="text-zinc-400 max-w-2xl mx-auto">
-            A showcase of hackathon victories, innovative projects, and technical accomplishments
-          </p>
-        </motion.div>
-
-        {/* Category Navigation */}
-        <div className="flex justify-center gap-4 mb-16 overflow-x-auto pb-4">
-          {categories.map((category) => (
-            <motion.button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-full text-sm transition-all whitespace-nowrap
-                ${selectedCategory === category.id 
-                  ? 'bg-teal-400 text-black' 
-                  : 'bg-zinc-900/50 text-white hover:bg-zinc-800'}`}
-            >
-              {category.label}
-            </motion.button>
-          ))}
-        </div>
-
-        {/* Achievement Grid */}
-        <motion.div 
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredAchievements.map((item) => (
-              <motion.div
-                key={item.id}
-                layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                whileHover={{ y: -5 }}
-                className="group cursor-pointer relative"
-                onClick={() => setSelectedItem(item)}
-                onMouseEnter={() => setHoveredCard(item.id)}
-                onMouseLeave={() => setHoveredCard(null)}
+  
+  const AchievementsShowcase = () => {
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [hoveredCard, setHoveredCard] = useState(null);
+    const containerRef = useRef(null);
+  
+    const filteredAchievements = achievements.filter(
+      item => selectedCategory === 'all' || item.type === selectedCategory
+    );
+  
+    return (
+      <div className="min-h-screen bg-[#0A0A0A] text-white py-20">
+        <div className="max-w-7xl mx-auto px-8">
+          {/* Header with animated text */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-16"
+          >
+            <Trophy className="w-12 h-12 text-violet-400 mx-auto mb-6" />
+            <h1 className="text-5xl font-light mb-4">Achievements & Projects</h1>
+            <p className="text-zinc-400 max-w-2xl mx-auto">
+              A showcase of hackathon victories, innovative projects, and technical accomplishments
+            </p>
+          </motion.div>
+  
+          {/* Category Navigation */}
+          <div className="flex justify-center gap-4 mb-16 overflow-x-auto pb-4">
+            {categories.map((category) => (
+              <motion.button
+                key={category.id}
+                onClick={() => setSelectedCategory(category.id)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`px-6 py-3 rounded-full text-sm transition-all whitespace-nowrap
+                  ${selectedCategory === category.id 
+                    ? 'bg-gradient-to-r from-violet-400 to-fuchsia-400 text-black' 
+                    : 'bg-zinc-900/50 text-white hover:bg-zinc-800'}`}
               >
-                <div className="relative bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-white/5 
-                             overflow-hidden hover:border-teal-500/20 transition-all">
-                  {/* Achievement Card Content */}
-                  <div className="p-8">
-                    {/* Header */}
-                    <div className="flex items-start justify-between mb-6">
-                      <div>
-                        {item.type === 'hackathons' && <Trophy className="w-8 h-8 text-teal-400" />}
-                        {item.type === 'projects' && <Code className="w-8 h-8 text-teal-400" />}
-                        {item.type === 'certifications' && <Award className="w-8 h-8 text-teal-400" />}
-                        {item.type === 'events' && <Star className="w-8 h-8 text-teal-400" />}
-                      </div>
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: hoveredCard === item.id ? 1 : 0 }}
-                        className="text-teal-400"
-                      >
-                        View Details →
-                      </motion.div>
-                    </div>
-<img src={item.heroimage} alt={item.title} className="w-full h-48 object-cover mb-6 rounded-xl" />
-                    {/* Title */}
-                    <h3 className="text-xl font-light text-white mb-2">{item.title}</h3>
-                    {item.event && (
-                      <div className="text-teal-400 text-sm mb-4">{item.event}</div>
-                    )}
-                    
-                    {/* Description */}
-                    <p className="text-zinc-400 text-sm mb-6 line-clamp-2">
-                      {item.description}
-                    </p>
-
-                    {/* Tech Stack/Highlights */}
-                    <div className="flex flex-wrap gap-2">
-                      {item.stack?.slice(0, 3).map((tech) => (
-                        <span 
-                          key={tech}
-                          className="px-3 py-1 bg-zinc-800/50 text-zinc-400 rounded-full text-xs"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                      {item.stack?.length > 3 && (
-                        <span className="px-3 py-1 text-zinc-500 text-xs">
-                          +{item.stack.length - 3} more
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+                {category.label}
+              </motion.button>
             ))}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Detailed Modal */}
-        <AnimatePresence>
-          {selectedItem && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
-              onClick={() => setSelectedItem(null)}
-            >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="relative max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto rounded-2xl bg-zinc-900 border border-white/10"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {/* Header with Gradient */}
-                <div className={`relative p-8 bg-gradient-to-r from-teal-500/10 to-emerald-500/10 rounded-t-2xl`}>
-                  <button
-                    onClick={() => setSelectedItem(null)}
-                    className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 
-                             flex items-center justify-center text-white/80 hover:bg-white/10 transition-colors"
-                  >
-                    <p className="w-5 h-5">X</p> 
-                  </button>
-                  
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-xl bg-white/5">
-                      {selectedItem.type === 'hackathons' && <Trophy className="w-8 h-8 text-teal-400" />}
-                      {selectedItem.type === 'projects' && <Code className="w-8 h-8 text-teal-400" />}
-                      {selectedItem.type === 'certifications' && <Award className="w-8 h-8 text-teal-400" />}
-                      {selectedItem.type === 'events' && <Star className="w-8 h-8 text-teal-400" />}
-                    </div>
-                    <div>
-                      <div className="text-teal-400 text-sm tracking-wide mb-2">
-                        {selectedItem.event || selectedItem.category}
+          </div>
+  
+          {/* Achievement Grid */}
+          <motion.div 
+            layout
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredAchievements.map((item) => (
+                <motion.div
+                  key={item.id}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  whileHover={{ y: -5 }}
+                  className="group cursor-pointer relative"
+                  onClick={() => setSelectedItem(item)}
+                  onMouseEnter={() => setHoveredCard(item.id)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                >
+                  <div className="relative bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-white/5 
+                               overflow-hidden hover:border-violet-500/20 transition-all">
+                    {/* Achievement Card Content */}
+                    <div className="p-8">
+                      {/* Header */}
+                      <div className="flex items-start justify-between mb-6">
+                        <div>
+                          {item.type === 'hackathons' && <Trophy className="w-8 h-8 text-violet-400" />}
+                          {item.type === 'projects' && <Code className="w-8 h-8 text-violet-400" />}
+                          {item.type === 'certifications' && <Award className="w-8 h-8 text-violet-400" />}
+                          {item.type === 'events' && <Star className="w-8 h-8 text-violet-400" />}
+                        </div>
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: hoveredCard === item.id ? 1 : 0 }}
+                          className="text-violet-400"
+                        >
+                          View Details →
+                        </motion.div>
                       </div>
-                      <h3 className="text-2xl font-light text-white">{selectedItem.title}</h3>
-                      {selectedItem.date && (
-                        <div className="text-zinc-400 text-sm mt-2">{selectedItem.date}</div>
+  
+                      <img src={item.heroimage} alt={item.title} className="w-full h-48 object-cover mb-6 rounded-xl" />
+                      
+                      {/* Title */}
+                      <h3 className="text-xl font-light text-white mb-2">{item.title}</h3>
+                      {item.event && (
+                        <div className="text-violet-400 text-sm mb-4">{item.event}</div>
                       )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content Sections */}
-                <div className="p-8 space-y-8">
-                  {/* Description */}
-                  <div className="space-y-4">
-                    <h4 className="text-lg text-white font-light flex items-center gap-2">
-                      <Terminal className="w-4 h-4 text-teal-400" />
-                      Overview
-                    </h4>
-                    <p className="text-zinc-400 leading-relaxed">
-                      {selectedItem.description}
-                    </p>
-                  </div>
-
-                  {/* Key Highlights */}
-                  {selectedItem.highlights && (
-                    <div className="space-y-4">
-                      <h4 className="text-lg text-white font-light flex items-center gap-2">
-                        <Lightbulb className="w-4 h-4 text-teal-400" />
-                        Key Highlights
-                      </h4>
-                      <div className="grid md:grid-cols-2 gap-4">
-                        {selectedItem.highlights.map((highlight, index) => (
-                          <motion.div
-                            key={index}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            className="flex items-center gap-3"
-                          >
-                            <CheckCircle className="w-4 h-4 text-teal-400 shrink-0" />
-                            <span className="text-zinc-400">{highlight}</span>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Tech Stack */}
-                  {selectedItem.stack && (
-                    <div className="space-y-4">
-                      <h4 className="text-lg text-white font-light flex items-center gap-2">
-                        <Code className="w-4 h-4 text-teal-400" />
-                        Technologies Used
-                      </h4>
+                      
+                      {/* Description */}
+                      <p className="text-zinc-400 text-sm mb-6 line-clamp-2">
+                        {item.description}
+                      </p>
+  
+                      {/* Tech Stack/Highlights */}
                       <div className="flex flex-wrap gap-2">
-                        {selectedItem.stack.map((tech, index) => (
-                          <motion.span
+                        {item.stack?.slice(0, 3).map((tech) => (
+                          <span 
                             key={tech}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: index * 0.1 }}
-                            className="px-4 py-2 rounded-full bg-white/5 text-white/80 text-sm
-                                     hover:bg-white/10 transition-colors"
+                            className="px-3 py-1 bg-zinc-800/50 text-zinc-400 rounded-full text-xs"
                           >
                             {tech}
-                          </motion.span>
+                          </span>
                         ))}
+                        {item.stack?.length > 3 && (
+                          <span className="px-3 py-1 text-zinc-500 text-xs">
+                            +{item.stack.length - 3} more
+                          </span>
+                        )}
                       </div>
                     </div>
-                  )}
-
-                  {/* Features for Projects */}
-                  {selectedItem.features && (
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+  
+          {/* Detailed Modal */}
+          <AnimatePresence>
+            {selectedItem && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+                onClick={() => setSelectedItem(null)}
+              >
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.9, opacity: 0 }}
+                  className="relative max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto rounded-2xl bg-zinc-900 border border-white/10"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {/* Header with Gradient */}
+                  <div className="relative p-8 bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10 rounded-t-2xl">
+                    <button
+                      onClick={() => setSelectedItem(null)}
+                      className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 
+                               flex items-center justify-center text-white/80 hover:bg-white/10 transition-colors"
+                    >
+                      <p className="w-5 h-5">X</p> 
+                    </button>
+                    
+                    <div className="flex items-start gap-4">
+                      <div className="p-3 rounded-xl bg-white/5">
+                        {selectedItem.type === 'hackathons' && <Trophy className="w-8 h-8 text-violet-400" />}
+                        {selectedItem.type === 'projects' && <Code className="w-8 h-8 text-violet-400" />}
+                        {selectedItem.type === 'certifications' && <Award className="w-8 h-8 text-violet-400" />}
+                        {selectedItem.type === 'events' && <Star className="w-8 h-8 text-violet-400" />}
+                      </div>
+                      <div>
+                        <div className="text-violet-400 text-sm tracking-wide mb-2">
+                          {selectedItem.event || selectedItem.category}
+                        </div>
+                        <h3 className="text-2xl font-light text-white">{selectedItem.title}</h3>
+                        {selectedItem.date && (
+                          <div className="text-zinc-400 text-sm mt-2">{selectedItem.date}</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+  
+                  {/* Content Sections */}
+                  <div className="p-8 space-y-8">
+                    {/* Description */}
                     <div className="space-y-4">
                       <h4 className="text-lg text-white font-light flex items-center gap-2">
-                        <Rocket className="w-4 h-4 text-teal-400" />
-                        Key Features
+                        <Terminal className="w-4 h-4 text-violet-400" />
+                        Overview
                       </h4>
-                      <div className="grid md:grid-cols-2 gap-4">
-                        {selectedItem.features.map((feature, index) => (
-                          <motion.div
-                            key={index}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
+                      <p className="text-zinc-400 leading-relaxed">
+                        {selectedItem.description}
+                      </p>
+                    </div>
+  
+                    {/* Key Highlights */}
+                    {selectedItem.highlights && (
+                      <div className="space-y-4">
+                        <h4 className="text-lg text-white font-light flex items-center gap-2">
+                          <Lightbulb className="w-4 h-4 text-violet-400" />
+                          Key Highlights
+                        </h4>
+                        <div className="grid md:grid-cols-2 gap-4">
+                          {selectedItem.highlights.map((highlight, index) => (
+                            <motion.div
+                              key={index}
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: index * 0.1 }}
+                              className="flex items-center gap-3"
+                            >
+                              <CheckCircle className="w-4 h-4 text-violet-400 shrink-0" />
+                              <span className="text-zinc-400">{highlight}</span>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+  
+                    {/* Tech Stack */}
+                    {selectedItem.stack && (
+                      <div className="space-y-4">
+                        <h4 className="text-lg text-white font-light flex items-center gap-2">
+                          <Code className="w-4 h-4 text-violet-400" />
+                          Technologies Used
+                        </h4>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedItem.stack.map((tech, index) => (
+                            <motion.span
+                              key={tech}
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: index * 0.1 }}
+                              className="px-4 py-2 rounded-full bg-white/5 text-white/80 text-sm
+                                       hover:bg-white/10 transition-colors"
+                            >
+                              {tech}
+                            </motion.span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+  
+                    {/* Features for Projects */}
+                    {selectedItem.features && (
+                      <div className="space-y-4">
+                        <h4 className="text-lg text-white font-light flex items-center gap-2">
+                          <Rocket className="w-4 h-4 text-violet-400" />
+                          Key Features
+                        </h4>
+                        <div className="grid md:grid-cols-2 gap-4">
+                          {selectedItem.features.map((feature, index) => (
+                            <motion.div
+                              key={index}
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: index * 0.1 }}
+                              className="flex items-center gap-3"
+                            >
+                              <div className="w-1.5 h-1.5 rounded-full bg-violet-400" />
+                              <span className="text-zinc-400">{feature}</span>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+  
+                    {/* Links */}
+                    {selectedItem.links && (
+                      <div className="flex flex-wrap gap-4 pt-4">
+                        {Object.entries(selectedItem.links).map(([key, url], index) => (
+                          <motion.a
+                            key={key}
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
-                            className="flex items-center gap-3"
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r 
+                                     from-violet-400/10 to-fuchsia-400/10 text-white hover:from-violet-400/20 
+                                     hover:to-fuchsia-400/20 transition-all group"
                           >
-                            <div className="w-1.5 h-1.5 rounded-full bg-teal-400" />
-                            <span className="text-zinc-400">{feature}</span>
-                          </motion.div>
+                            {key === 'github' && <Github className="w-4 h-4 text-violet-400" />}
+                            {key === 'live' && <Globe className="w-4 h-4 text-violet-400" />}
+                            {key === 'demo' && <Play className="w-4 h-4 text-violet-400" />}
+                            <span className="capitalize">{key}</span>
+                            <ExternalLink className="w-4 h-4 text-violet-400 group-hover:translate-x-0.5 
+                                                   transition-transform" />
+                          </motion.a>
                         ))}
                       </div>
-                    </div>
-                  )}
-
-                  {/* Image Gallery */}
-                  {selectedItem.images && (
-                    <div className="space-y-4">
-                      <h4 className="text-lg text-white font-light flex items-center gap-2">
-                        <Layout className="w-4 h-4 text-teal-400" />
-                        Gallery
-                      </h4>
-                      <div className="grid grid-cols-2 gap-4">
-                        {selectedItem.images.map((image, index) => (
-                          <motion.div
-                            key={index}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: index * 0.2 }}
-                            className="rounded-xl overflow-hidden"
-                          >
-                            <img 
-                              src={image}
-                              alt={`${selectedItem.title} ${index + 1}`}
-                              className="w-full h-48 object-cover hover:scale-105 transition-transform"
-                            />
-                          </motion.div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Links */}
-                  {selectedItem.links && (
-                    <div className="flex flex-wrap gap-4 pt-4">
-                      {Object.entries(selectedItem.links).map(([key, url], index) => (
-                        <motion.a
-                          key={key}
-                          href={url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 
-                                   text-white hover:bg-white/10 transition-colors"
-                        >
-                          {key === 'github' && <Github className="w-4 h-4" />}
-                          {key === 'live' && <Globe className="w-4 h-4" />}
-                          {key === 'demo' && <Play className="w-4 h-4" />}
-                          <span className="capitalize">{key}</span>
-                          <ExternalLink className="w-4 h-4" />
-                        </motion.a>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </div>
+                </motion.div>
               </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
-    </div>
-  );
-};
-
-export default AchievementsShowcase;
+    );
+  };
+  
+  export default AchievementsShowcase;
