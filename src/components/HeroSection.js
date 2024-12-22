@@ -92,7 +92,7 @@ const HeroSection = () => {
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute h-px bg-gradient-to-r from-transparent via-violet-400 to-transparent w-full"
+            className="absolute h-px bg-gradient-to-r from-transparent via-violet-300 to-transparent w-full"
             style={{ 
               top: `${i * 5}%`,
               filter: 'blur(1px)',
