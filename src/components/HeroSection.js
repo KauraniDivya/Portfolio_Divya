@@ -309,6 +309,21 @@ const HeroSection = () => {
                 </motion.div>
               </div>
             </div>
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20">
+            <motion.div 
+              className="bg-zinc-900/80 backdrop-blur-sm rounded-full px-8 py-4"
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <nav className="flex gap-10">
+                <button className="text-zinc-400 hover:text-white transition-colors">Skills</button>
+                <button className="text-zinc-400 hover:text-white transition-colors">Experience</button>
+                <button className="text-zinc-400 hover:text-white transition-colors">Resume</button>
+                <button className="text-violet-400">Contact</button>
+              </nav>
+            </motion.div>
+          </div>
           </motion.div>
         </div>
       </div>

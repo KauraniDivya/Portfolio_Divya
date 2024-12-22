@@ -61,7 +61,7 @@ const Portfolio = () => {
     {
         name: "MySQL",
         icon: Database,
-        logo: "phttps://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fmysql.png?alt=media&token=6f9067e4-13bd-471f-8510-06d9116c8bc6"
+        logo: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fmysql.png?alt=media&token=6f9067e4-13bd-471f-8510-06d9116c8bc6"
     },
     {
         name: "Sass",
