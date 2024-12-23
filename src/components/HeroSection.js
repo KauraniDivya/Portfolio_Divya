@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, ArrowLeft, ArrowRight, ArrowUp, ArrowDown } from 'lucide-react';
+import { Layout, FolderGit2, User, Mail, ArrowUpRight, ArrowLeft, ArrowRight, ArrowUp, ArrowDown, Code } from 'lucide-react';
 import DK from "../assets/DivyaSIH.jpg";
 import SIH24 from "../assets/car2.jpg";
-import SIH23 from "../assets/sih23.jpg";
-import ssip22 from "../assets/ssip22.jpg";
+import SIH23 from "../assets/sih2023.jpg";
+import xenesisposter from "../assets/xenp.jpeg";
 import york from "../assets/york.JPG";
 import car5 from "../assets/car5.JPG";
 import car4 from "../assets/car4.JPG";
 import vsitr from "../assets/vsitr.JPG";
-import car6 from "../assets/car6.JPG";
+import car6 from "../assets/xenesis 2.jpg";
 import car7 from "../assets/car7.JPG";
-import car8 from "../assets/car8.jpg";
+import car8 from "../assets/sih-23.jpg";
 import car9 from "../assets/car9.JPG";
 import car10 from "../assets/car10.jpg";
 import winner from "../assets/winner.JPG";
@@ -93,113 +93,7 @@ const CustomCursor = () => {
   };
 
   
-  const FloatingNavbar = () => {
-    const [isMobile, setIsMobile] = useState(false);
-    const [activeTab, setActiveTab] = useState('Home');
-  
-    useEffect(() => {
-      const checkMobile = () => {
-        setIsMobile(window.innerWidth < 768);
-      };
-      
-      checkMobile();
-      window.addEventListener('resize', checkMobile);
-      return () => window.removeEventListener('resize', checkMobile);
-    }, []);
-  
-    const navItems = [
-      { name: 'Home', icon: '🏠' },
-      { name: 'Projects', icon: '💼' },
-      { name: 'About', icon: '👤' },
-      { name: 'Contact', icon: '✉️' }
-    ];
-  
-    if (isMobile) {
-      return (
-        <motion.div
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="fixed bottom-6 left-0 right-0 mx-4 z-[999]"
-        >
-          <div className="bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl p-4 max-w-md mx-auto">
-            <div className="grid grid-cols-4 gap-2">
-              {navItems.map((item) => (
-                <motion.button
-                  key={item.name}
-                  onClick={() => setActiveTab(item.name)}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="flex flex-col items-center justify-center gap-1.5 relative group w-full"
-                >
-                  <motion.div
-                    initial={false}
-                    animate={{
-                      scale: activeTab === item.name ? 1.1 : 1,
-                      opacity: activeTab === item.name ? 1 : 0.7
-                    }}
-                    className="flex flex-col items-center"
-                  >
-                    <span className="text-lg sm:text-xl mb-1 relative">
-                      {item.icon}
-                      {activeTab === item.name && (
-                        <motion.div
-                          layoutId="indicator"
-                          className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-400"
-                        />
-                      )}
-                    </span>
-                    <span className="text-[10px] sm:text-xs text-white whitespace-nowrap">{item.name}</span>
-                  </motion.div>
-                </motion.button>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-      );
-    }
-  
-    return (
-      <motion.div
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="fixed bottom-8 left-0 right-0 mx-auto z-[999]"
-      >
-        <div className="flex justify-center px-4">
-          <div className="px-6 sm:px-8 py-4 bg-black/80 backdrop-blur-xl border border-white/10 rounded-full">
-            <div className="grid grid-cols-4 gap-8 sm:gap-12 md:gap-16 lg:gap-20">
-              {navItems.map((item) => (
-                <motion.button
-                  key={item.name}
-                  onClick={() => setActiveTab(item.name)}
-                  whileHover={{ y: -3 }}
-                  className="group relative text-white/70 hover:text-white 
-                            transition-colors duration-300 text-sm font-medium"
-                >
-                  <span className="flex flex-col items-center gap-1.5">
-                    <span className="text-lg sm:text-xl group-hover:scale-110 transition-transform duration-300">
-                      {item.icon}
-                    </span>
-                    <span className="text-xs sm:text-sm whitespace-nowrap">{item.name}</span>
-                  </span>
-                  <motion.div
-                    initial={false}
-                    animate={{
-                      width: activeTab === item.name ? '100%' : '0%',
-                      opacity: activeTab === item.name ? 1 : 0
-                    }}
-                    className="absolute -bottom-1 left-0 h-0.5 bg-violet-400"
-                    transition={{ duration: 0.2 }}
-                  />
-                </motion.button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    );
-  };
+
   
   // HoverInstruction component with responsive design
   const HoverInstruction = () => {
@@ -208,7 +102,7 @@ const CustomCursor = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2.8, duration: 0.6 }}
-        className="absolute top-12 sm:top-16 md:top-20 lg:top-24 left-1/2 -translate-x-1/2 flex flex-col items-center"
+        className="absolute top-12 sm:top-16 md:top-20 lg:top-16 left-1/2 -translate-x-1/2 flex flex-col items-center"
       >
         <p className="text-white/70 font-['Great_Vibes'] text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-2 pointer-events-none select-none text-center px-4"
            style={{
@@ -249,14 +143,13 @@ const CustomCursor = () => {
       { url: SIH24, title: "SIH-24 Winner" },
       { url: vsitr, title: "3rd Prize at VSITR Poster Competition" },
       { url: DK, title: "Divya Kaurani" },
-      { url: ssip22, title: "SSIP 2.0" },
-      { url: SIH23, title: "SIH'23 Finalist" },
+      { url: car6, title: "X-Aavishkar First Prize" },
       { url: york, title: "York IE - React Intern" },
+      { url: xenesisposter, title: "Xenesis-Poster Competition Runner Up" },
+      { url: car8, title: "SIH-23" },
       { url: winner, title: "Team Saarthi - Smart India Hackathon 2024 Winner" },
-    { url: car7, title: "3rd Prize at VSITR Poster Competition" },
-    { url: car4, title: "Xenesis Website Committee" },
-    { url: car8, title: "SSIP 2.0" },
-    { url: car6, title: "SSIP 2.0" }
+      { url: car7, title: "3rd Prize at VSITR Poster Competition" },
+      { url: SIH23, title: "SIH'23 Finalist" },
   ];
 
   useEffect(() => {
@@ -270,7 +163,7 @@ const CustomCursor = () => {
   }, []);
 
   // Modified maxSlides calculation based on device
-  const maxSlides = isMobile ? photos.length - 1 : photos.length - 0.75;
+  const maxSlides = isMobile ? photos.length - 1 : photos.length - 1.5;
   useEffect(() => {
     setIsLoading(false);
     
@@ -388,7 +281,6 @@ const CustomCursor = () => {
       className="relative h-screen overflow-hidden bg-[#0A0A0A]"
     >
          <CustomCursor />
-         <FloatingNavbar />
       {isMobile ? (
         // Enhanced Mobile Layout
         <div className="relative h-full">
@@ -479,13 +371,12 @@ const CustomCursor = () => {
               </motion.div>
 
 
-              {/* Vertical Film Strip */}
              {/* Vertical Film Strip */}
              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.2 }}
-                className="mt-8 relative h-48"
+                className=" relative h-64 object-cover"
               >
                 <div className="absolute left-0 top-0 bottom-0 w-full overflow-hidden">
                   <div className="relative h-full">
@@ -567,8 +458,6 @@ const CustomCursor = () => {
               </motion.button>
             </motion.div>
 
-            {/* Bottom Navigation */}
-            <FloatingNavbar />
           </div>
         </div>
       ) : (
@@ -594,12 +483,23 @@ const CustomCursor = () => {
 
         {/* Your photo with blur effect */}
         <div className="absolute inset-0">
-          <img
-            src="http://res.cloudinary.com/dkyrtfk1u/image/upload/v1697563140/ablotx3mpzcysvrofysu.jpg"
-            alt=""
-            className="w-full h-full object-cover filter blur-xl opacity-50 scale-110"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A]" />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentSlide}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              className="absolute inset-0"
+            >
+              <img
+                src={photos[currentSlide].url}
+                alt=""
+                className="w-full h-full object-cover filter blur-2xl opacity-40 scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A]" />
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
 

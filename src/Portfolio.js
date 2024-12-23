@@ -8,11 +8,14 @@ import {
 import HeroSection from './components/HeroSection';
 import ProjectsGrid from './components/ProjectsGrid';
 import StyledFooter from './components/Footer';
+import  useScrollManager  from './hooks/ScrollManager';
+import FloatingNavbar from './components/FloatingNavbar';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState(null);
   const containerRef = useRef(null);
   const { scrollY } = useScroll();
+  const { refs, scrollToSection } = useScrollManager();
 
   // Updated tech stack with icons
   const frontendStack = [ 
@@ -173,10 +176,12 @@ const MarqueeGroup = ({ children, direction = 1 }) => (
 
   return (
     <div className="bg-[#0A0A0A] text-white overflow-hidden">
-      <HeroSection />
+       <div ref={refs.homeRef}>
+        <HeroSection />
+      </div>
 
       {/* Tech Stack with Infinite Marquee */}
-      <section className="py-32 relative">
+      <section ref={refs.techStackRef} className="py-32 relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(139,92,246,0.05),rgba(0,0,0,0))]" />
         
         <div className="max-w-7xl mx-auto px-8 mb-20">
@@ -225,8 +230,13 @@ const MarqueeGroup = ({ children, direction = 1 }) => (
         </div>
       </section>
 
-      <ProjectsGrid />
-      <StyledFooter />
+      <div ref={refs.projectsRef}>
+        <ProjectsGrid />
+      </div>
+      <div ref={refs.contactRef}>
+        <StyledFooter />
+      </div>
+      <FloatingNavbar onNavClick={scrollToSection} />
     </div>
   );
 };
