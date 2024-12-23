@@ -1,28 +1,262 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowUpRight, ArrowLeft, ArrowRight, ArrowUp, ArrowDown } from 'lucide-react';
 
-const HeroSection = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [hoverPosition, setHoverPosition] = useState(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const containerRef = useRef(null);
-  const autoSlideTimer = useRef(null);
+
+const CustomCursor = () => {
+    const cursorRef = useRef(null);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [isPointer, setIsPointer] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+  
+    useEffect(() => {
+      // Check if device is mobile
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      
+      checkMobile();
+      window.addEventListener('resize', checkMobile);
+  
+      // Only add mousemove listener for non-mobile devices
+      if (!isMobile) {
+        const handleMouseMove = (e) => {
+          setPosition({ x: e.clientX, y: e.clientY });
+          
+          const target = e.target;
+          setIsPointer(
+            window.getComputedStyle(target).cursor === 'pointer' ||
+            target.tagName === 'BUTTON' ||
+            target.tagName === 'A'
+          );
+        };
+  
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => {
+          window.removeEventListener('mousemove', handleMouseMove);
+          window.removeEventListener('resize', checkMobile);
+        };
+      }
+    }, [isMobile]);
+  
+    // Don't render cursor on mobile devices
+    if (isMobile) return null;
+  
+    return (
+      <>
+        {/* Main cursor */}
+        <motion.div
+          ref={cursorRef}
+          className="fixed top-0 left-0 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-violet-400/50 pointer-events-none z-50 mix-blend-difference"
+          animate={{
+            x: position.x - 6,
+            y: position.y - 6,
+            scale: isPointer ? 1.5 : 1,
+          }}
+          transition={{
+            type: "spring",
+            stiffness: 500,
+            damping: 28,
+            mass: 0.5
+          }}
+        />
+        {/* Trailing cursor */}
+        <motion.div
+          className="fixed top-0 left-0 w-6 h-6 sm:w-8 sm:h-8 rounded-full border border-violet-400/30 pointer-events-none z-50 mix-blend-difference"
+          animate={{
+            x: position.x - 12,
+            y: position.y - 12,
+            scale: isPointer ? 1.5 : 1,
+          }}
+          transition={{
+            type: "spring",
+            stiffness: 250,
+            damping: 20,
+            mass: 0.8
+          }}
+        />
+      </>
+    );
+  };
+
+  
+  const FloatingNavbar = () => {
+    const [isMobile, setIsMobile] = useState(false);
+    const [activeTab, setActiveTab] = useState('Home');
+  
+    useEffect(() => {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      
+      checkMobile();
+      window.addEventListener('resize', checkMobile);
+      return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+  
+    const navItems = [
+      { name: 'Home', icon: '🏠' },
+      { name: 'Projects', icon: '💼' },
+      { name: 'About', icon: '👤' },
+      { name: 'Contact', icon: '✉️' }
+    ];
+  
+    if (isMobile) {
+      return (
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="fixed bottom-6 left-0 right-0 mx-4 z-[999]"
+        >
+          <div className="bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl p-4 max-w-md mx-auto">
+            <div className="grid grid-cols-4 gap-2">
+              {navItems.map((item) => (
+                <motion.button
+                  key={item.name}
+                  onClick={() => setActiveTab(item.name)}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="flex flex-col items-center justify-center gap-1.5 relative group w-full"
+                >
+                  <motion.div
+                    initial={false}
+                    animate={{
+                      scale: activeTab === item.name ? 1.1 : 1,
+                      opacity: activeTab === item.name ? 1 : 0.7
+                    }}
+                    className="flex flex-col items-center"
+                  >
+                    <span className="text-lg sm:text-xl mb-1 relative">
+                      {item.icon}
+                      {activeTab === item.name && (
+                        <motion.div
+                          layoutId="indicator"
+                          className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-400"
+                        />
+                      )}
+                    </span>
+                    <span className="text-[10px] sm:text-xs text-white whitespace-nowrap">{item.name}</span>
+                  </motion.div>
+                </motion.button>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      );
+    }
+  
+    return (
+      <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="fixed bottom-8 left-0 right-0 mx-auto z-[999]"
+      >
+        <div className="flex justify-center px-4">
+          <div className="px-6 sm:px-8 py-4 bg-black/80 backdrop-blur-xl border border-white/10 rounded-full">
+            <div className="grid grid-cols-4 gap-8 sm:gap-12 md:gap-16 lg:gap-20">
+              {navItems.map((item) => (
+                <motion.button
+                  key={item.name}
+                  onClick={() => setActiveTab(item.name)}
+                  whileHover={{ y: -3 }}
+                  className="group relative text-white/70 hover:text-white 
+                            transition-colors duration-300 text-sm font-medium"
+                >
+                  <span className="flex flex-col items-center gap-1.5">
+                    <span className="text-lg sm:text-xl group-hover:scale-110 transition-transform duration-300">
+                      {item.icon}
+                    </span>
+                    <span className="text-xs sm:text-sm whitespace-nowrap">{item.name}</span>
+                  </span>
+                  <motion.div
+                    initial={false}
+                    animate={{
+                      width: activeTab === item.name ? '100%' : '0%',
+                      opacity: activeTab === item.name ? 1 : 0
+                    }}
+                    className="absolute -bottom-1 left-0 h-0.5 bg-violet-400"
+                    transition={{ duration: 0.2 }}
+                  />
+                </motion.button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    );
+  };
+  
+  // HoverInstruction component with responsive design
+  const HoverInstruction = () => {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 2.8, duration: 0.6 }}
+        className="absolute top-12 sm:top-16 md:top-20 lg:top-24 left-1/2 -translate-x-1/2 flex flex-col items-center"
+      >
+        <p className="text-white/70 font-['Great_Vibes'] text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-2 pointer-events-none select-none text-center px-4"
+           style={{
+             textShadow: '0 0 10px rgba(139, 92, 246, 0.3)',
+             background: 'linear-gradient(to right, rgba(255,255,255,0.9), rgba(139, 92, 246, 0.8))',
+             WebkitBackgroundClip: 'text',
+             WebkitTextFillColor: 'transparent'
+           }}>
+          ✨ Hover to unveil magic ✨
+        </p>
+        <ArrowDown className="w-4 sm:w-5 md:w-6 h-4 sm:h-5 md:h-6 text-violet-400 animate-bounce mt-2" />
+      </motion.div>
+    );
+  };
+  
+  const HeroSection = () => {
+
+    const [isMobile, setIsMobile] = useState(false);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [hoverPosition, setHoverPosition] = useState(null);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
+    const containerRef = useRef(null);
+    const autoSlideTimer = useRef(null);
+
+    // Check for mobile device
+    useEffect(() => {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      checkMobile();
+      window.addEventListener('resize', checkMobile);
+      return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
   // Sample photo data with titles (replace with your actual photos and achievements)
   const photos = [
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar5.JPG?alt=media&token=678aa7e3-b719-448c-8dd7-7e8a0bcbbfa1", title: "Design Excellence Award" },
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar2.jpg?alt=media&token=cc72cafe-0c56-4bbd-b026-687cf67477ff", title: "Featured Project - AI Implementation" },
-    { url: "http://res.cloudinary.com/dkyrtfk1u/image/upload/v1697563140/ablotx3mpzcysvrofysu.jpg", title: "Hackathon Winner - Social Impact" },
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Faf912b16-5927-4d25-ac5e-41cc7eaf2963%202.JPG?alt=media&token=45796db4-71da-4580-9fc9-f26ac7aa1e2a", title: "First Place - Web Design Competition 2023" },
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fsih23.png?alt=media&token=582a086e-673b-44f3-b398-4f333dbbcb1c", title: "Best Innovation Award - Tech Summit" },
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar6.JPG?alt=media&token=fe3d8b1c-8a23-483e-ba56-ccede1dc5752", title: "Open Source Contribution Award" },
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar7.JPG?alt=media&token=aa22b181-b333-4900-9929-328e8fdb307f", title: "Best Mobile App Design" },
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar8.jpg?alt=media&token=3c26bcb6-a7ae-4410-bcc5-5b180bd43c9f", title: "Innovation Challenge Winner" }
+    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar5.JPG?alt=media&token=678aa7e3-b719-448c-8dd7-7e8a0bcbbfa1", title: "Xenesis-2024" },
+    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar2.jpg?alt=media&token=cc72cafe-0c56-4bbd-b026-687cf67477ff", title: "SIH-24 Winner" },
+    { url: "http://res.cloudinary.com/dkyrtfk1u/image/upload/v1697563140/ablotx3mpzcysvrofysu.jpg", title: "Divya Kaurani" },
+    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Faf912b16-5927-4d25-ac5e-41cc7eaf2963%202.JPG?alt=media&token=45796db4-71da-4580-9fc9-f26ac7aa1e2a", title: " Team Saarthi - Smart India Hackathon 2024 Winner" },
+    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fsih23.png?alt=media&token=582a086e-673b-44f3-b398-4f333dbbcb1c", title: "Team Sankalp - UniteBharat - SIH'23 Finalist" },
+    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar6.JPG?alt=media&token=fe3d8b1c-8a23-483e-ba56-ccede1dc5752", title: "SSIP 2.0" },
+    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar7.JPG?alt=media&token=aa22b181-b333-4900-9929-328e8fdb307f", title: "3rd Prize at VSITR Poster Competition" },
+    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar8.jpg?alt=media&token=3c26bcb6-a7ae-4410-bcc5-5b180bd43c9f", title: "SSIP 2.0" },
+    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar10.jpg?alt=media&token=3c26bcb6-a7ae-4410-bcc5-5b180bd43c9f", title: "Xenesis Website Committee" },
+    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar5.JPG?alt=media&token=678aa7e3-b719-448c-8dd7-7e8a0bcbbfa1", title: "Xenesis-2024" }
   ];
 
-  const maxSlides = photos.length - 4;
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Modified maxSlides calculation based on device
+  const maxSlides = isMobile ? photos.length - 1 : photos.length - 1.5;
 
   useEffect(() => {
     // Initial loading animation
@@ -118,7 +352,194 @@ const HeroSection = () => {
       ref={containerRef}
       className="relative h-screen overflow-hidden bg-[#0A0A0A]"
     >
-      {/* Background remains the same */}
+         <CustomCursor />
+         <FloatingNavbar />
+      {isMobile ? (
+        // Enhanced Mobile Layout
+        <div className="relative h-full">
+          {/* Background with enhanced blur effect */}
+          <div className="absolute inset-0">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+              className="relative h-full"
+            >
+              <img
+                src={photos[currentSlide].url}
+                alt=""
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A]" />
+              <div className="absolute inset-0 backdrop-blur-xl bg-[#0A0A0A]/50" />
+            </motion.div>
+          </div>
+
+          {/* Mobile Content */}
+          <div className="relative h-full flex flex-col">
+            {/* Top Navigation */}
+            <motion.div 
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="flex justify-between items-center p-6"
+            >
+              <div className="flex items-center gap-3">
+                <img 
+                  src="https://i.ibb.co/71jpqJF/avatar.png"
+                  alt="Profile"
+                  className="w-14 h-14 rounded-full object-cover border-2 border-violet-500/20"
+                />
+              </div>
+              
+              <div className="flex gap-3">
+                {['GH', 'LN', 'TW'].map((link) => (
+                  <motion.button
+                    key={link}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-10 h-10 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 
+                              flex items-center justify-center text-white/80 text-sm"
+                  >
+                    {link}
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Center Hero Content */}
+            <div className="flex-1 flex flex-col justify-center px-6">
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.8 }}
+                className="mb-6 text-center"
+              >
+                <h1 
+                  className="font-['Syne'] text-7xl font-extrabold tracking-tight leading-none mb-2
+                           bg-gradient-to-r from-white via-violet-200 to-white bg-clip-text text-transparent
+                           drop-shadow-[0_10px_10px_rgba(139,92,246,0.2)]"
+                  style={{
+                    WebkitTextStroke: '1px rgba(255,255,255,0.1)',
+                  }}
+                >
+                  DIVYA
+                </h1>
+                <h1 
+                  className="font-['Syne'] text-7xl font-extrabold tracking-tight leading-none
+                           bg-gradient-to-r from-white via-violet-200 to-white bg-clip-text text-transparent
+                           drop-shadow-[0_10px_10px_rgba(139,92,246,0.2)]"
+                  style={{
+                    WebkitTextStroke: '1px rgba(255,255,255,0.1)',
+                  }}
+                >
+                  KAURANI
+                </h1>
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ delay: 1.2, duration: 1 }}
+                  className="h-px mx-auto mt-4 bg-gradient-to-r from-transparent via-violet-500/50 to-transparent w-3/4"
+                />
+              </motion.div>
+
+
+              {/* Vertical Film Strip */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2 }}
+                className="mt-8 relative h-48"
+              >
+                <div className="absolute left-0 top-0 bottom-0 w-full overflow-hidden">
+                  <motion.div
+                    animate={{
+                      y: -currentSlide * 100 + '%'
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    className="relative flex flex-col gap-4"
+                  >
+                    {photos.map((photo, index) => (
+                      <motion.div
+                        key={index}
+                        className="relative w-full h-48 shrink-0"
+                        whileHover={{ scale: 1.02 }}
+                        onClick={() => setCurrentSlide(index)}
+                      >
+                        <img
+                          src={photo.url}
+                          alt={photo.title}
+                          className="w-full h-full object-cover rounded-xl"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-xl" />
+                        <p className="absolute bottom-4 left-4 text-white font-medium">
+                          {photo.title}
+                        </p>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </div>
+
+                {/* Slide Navigation */}
+                <div className="absolute -right-2 top-1/2 -translate-y-1/2 flex flex-col gap-2">
+                  {photos.map((_, index) => (
+                    <motion.button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`w-2 h-2 rounded-full ${
+                        currentSlide === index ? 'bg-violet-400' : 'bg-white/20'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+
+                   {/* Profile Description */}
+                   <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 1 }}
+                className="space-y-3"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="text-violet-400 text-xl">⚡</span>
+                  <p className="text-lg text-white/90 font-medium">
+                    Full Stack Developer & Creative Innovator
+                  </p>
+                </div>
+                <p className="text-base text-white/60 pl-7">
+                  Crafting exceptional digital experiences with passion for innovation ✨
+                </p>
+              </motion.div>
+            </div>
+
+            {/* Bottom Action */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 1.4 }}
+              className="p-6"
+            >
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full py-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 
+                          flex items-center justify-center gap-2 text-white/90"
+              >
+                <span>VIEW RESUME</span>
+                <ArrowUpRight className="w-4 h-4 text-violet-400" />
+              </motion.button>
+            </motion.div>
+
+            {/* Bottom Navigation */}
+            <FloatingNavbar />
+          </div>
+        </div>
+      ) : (
+        // Desktop Layout
+        <>
+      
+      {/* Background with your photo */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 opacity-30">
           <div 
@@ -128,61 +549,59 @@ const HeroSection = () => {
                 linear-gradient(to right, rgba(139, 92, 246, 0.03) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(139, 92, 246, 0.03) 1px, transparent 1px)
               `,
-              backgroundSize: '60px 60px',
+              backgroundSize: '40px 40px',
               transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px)`,
               transition: 'transform 0.2s ease-out'
             }}
           />
         </div>
 
-        <div 
-          className="absolute inset-0 opacity-50"
-          style={{
-            background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, 
-                        rgba(139, 92, 246, 0.15), 
-                        rgba(10, 10, 10, 0) 50%)`
-          }}
-        />
-
+        {/* Your photo with blur effect */}
         <div className="absolute inset-0">
           <img
             src="http://res.cloudinary.com/dkyrtfk1u/image/upload/v1697563140/ablotx3mpzcysvrofysu.jpg"
             alt=""
-            className="w-full h-full object-cover filter blur-2xl opacity-40 scale-100"
+            className="w-full h-full object-cover filter blur-2xl opacity-40 scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A]" />
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="relative h-full max-w-7xl mx-auto px-8">
+      <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Navigation */}
         <motion.div 
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex justify-between items-center py-8"
+          className="flex justify-between items-center py-4 h-20 sm:h-24"
         >
-          <div className="text-white font-light tracking-wide">DK.</div>
+          <div className="relative text-white font-light tracking-wide">
+            <img 
+              src="https://i.ibb.co/71jpqJF/avatar.png" 
+              alt="Divya Kaurani" 
+              className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 object-cover"
+            />
+          </div>
           <motion.button
             whileHover={{ scale: 1.05 }}
-            className="px-6 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 
+            className="px-3 sm:px-4 lg:px-6 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 
                      flex items-center gap-2 hover:border-violet-500/20 transition-all duration-300"
           >
-            <span className="text-white/80 text-sm">VIEW RESUME</span>
-            <ArrowUpRight className="w-4 h-4 text-violet-400" />
+            <span className="text-white/80 text-xs sm:text-sm">VIEW RESUME</span>
+            <ArrowUpRight className="w-3 h-3 sm:w-4 sm:h-4 text-violet-400" />
           </motion.button>
         </motion.div>
 
         {/* Center Content */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-full">
-            {/* Animated Name */}
+            {/* Name */}
             <motion.h1
               initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1 }}
-              className="text-[160px] leading-none font-medium text-white/90 tracking-tight"
+              className="text-4xl sm:text-6xl md:text-8xl lg:text-[160px] leading-none font-medium text-white/90 tracking-tight"
             >
               <motion.span
                 initial={{ opacity: 0, y: 50 }}
@@ -193,8 +612,11 @@ const HeroSection = () => {
               </motion.span>
             </motion.h1>
 
-            {/* Film Strip Slider */}
-            <div className="relative -my-16 w-full h-[400px]">
+            <HoverInstruction />
+
+            {/* Modified Film Strip Slider for better mobile experience */}
+            <div className="relative -my-4 sm:-my-8 lg:-my-16 w-full h-[150px] sm:h-[250px] lg:h-[400px]">
+              {/* Navigation buttons */}
               <motion.button
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -202,10 +624,10 @@ const HeroSection = () => {
                 whileHover={{ scale: 1.1 }}
                 onClick={slidePrev}
                 disabled={currentSlide === 0}
-                className={`absolute -left-16 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 
+                className={`absolute -left-4 sm:-left-8 lg:-left-16 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full bg-white/10 
                            ${currentSlide === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white/20'}`}
               >
-                <ArrowLeft className="w-6 h-6 text-white" />
+                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
               </motion.button>
               <motion.button
                 initial={{ opacity: 0, x: -20 }}
@@ -214,38 +636,38 @@ const HeroSection = () => {
                 whileHover={{ scale: 1.1 }}
                 onClick={slideNext}
                 disabled={currentSlide === maxSlides}
-                className={`absolute -right-16 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 
+                className={`absolute -right-4 sm:-right-8 lg:-right-16 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full bg-white/10 
                            ${currentSlide === maxSlides ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white/20'}`}
               >
-                <ArrowRight className="w-6 h-6 text-white" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
               </motion.button>
 
-              {/* Film Strip Container */}
+              {/* Film Strip Container with mobile optimization */}
               <div className="relative w-full h-full overflow-hidden">
                 {/* Film Strip Edge Decorations */}
-                <div className="absolute left-0 top-0 bottom-0 w-8 bg-black/50 z-10 flex flex-col justify-between py-4">
+                <div className="absolute left-0 top-0 bottom-0 w-4 sm:w-6 lg:w-8 bg-black/50 z-10 flex flex-col justify-between py-4">
                   {[...Array(8)].map((_, i) => (
-                    <div key={`left-${i}`} className="w-full h-3 bg-black/50 border-y border-white/20" />
+                    <div key={`left-${i}`} className="w-full h-2 sm:h-3 bg-black/50 border-y border-white/20" />
                   ))}
                 </div>
-                <div className="absolute right-0 top-0 bottom-0 w-8 bg-black/50 z-10 flex flex-col justify-between py-4">
+                <div className="absolute right-0 top-0 bottom-0 w-4 sm:w-6 lg:w-8 bg-black/50 z-10 flex flex-col justify-between py-4">
                   {[...Array(8)].map((_, i) => (
-                    <div key={`right-${i}`} className="w-full h-3 bg-black/50 border-y border-white/20" />
+                    <div key={`right-${i}`} className="w-full h-2 sm:h-3 bg-black/50 border-y border-white/20" />
                   ))}
                 </div>
 
-                {/* Slides */}
+                {/* Slides with mobile-first approach */}
                 <motion.div 
-                  className="absolute flex gap-1 h-full pl-8 pr-8"
+                  className="absolute flex gap-1 h-full pl-4 sm:pl-6 lg:pl-8 pr-4 sm:pr-6 lg:pr-8"
                   animate={{
-                    x: -currentSlide * (25.25 + 0.25) + '%'
+                    x: -currentSlide * (isMobile ? 100 : 25.25) + '%'
                   }}
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 >
                   {photos.map((photo, index) => (
                     <motion.div
                       key={index}
-                      className="relative w-1/4 shrink-0"
+                      className={`relative ${isMobile ? 'w-full' : 'w-1/3'} shrink-0`}
                       onHoverStart={() => setHoverPosition(index)}
                       onHoverEnd={() => setHoverPosition(null)}
                       animate={{
@@ -253,45 +675,42 @@ const HeroSection = () => {
                       }}
                       transition={{ duration: 0.3 }}
                     >
+                      {/* Rest of the slide content remains similar but with responsive classes */}
                       <div className={`relative h-full transition-opacity duration-300
                                     ${hoverPosition === index ? 'opacity-100' : 'opacity-70'}`}>
                         <img
                           src={photo.url}
                           alt={photo.title}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover rounded-sm"
                         />
-                        <div className={`absolute inset-0 bg-gradient-to-b from-[#0A0A0A] 
-                                    via-transparent to-[#0A0A0A] transition-opacity duration-300
-                                    ${hoverPosition === index ? 'opacity-30' : 'opacity-70'}`} />
+                        <div className={`absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/50 
+                                      via-transparent to-[#0A0A0A]/50 transition-opacity duration-300
+                                      ${hoverPosition === index ? 'opacity-30' : 'opacity-70'}`} />
                         
-                        {/* Simple Tooltip */}
+                        {/* Mobile-optimized tooltip */}
                         {hoverPosition === index && (
                           <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 10 }}
-                            className="absolute bottom-16 left-0 right-0 flex justify-center px-4"
+                            className="absolute bottom-8 sm:bottom-12 lg:bottom-16 left-0 right-0 flex justify-center px-2 sm:px-4"
                           >
-                            <div className="bg-black/90 text-white text-sm rounded-lg whitespace-nowrap
-                                          backdrop-blur-sm border border-white/10 px-4 py-2">
+                            <div className="bg-black/90 text-white text-xs sm:text-sm rounded-lg 
+                                          backdrop-blur-sm border border-white/10 px-3 py-1.5 sm:px-4 sm:py-2">
                               {photo.title}
                             </div>
                           </motion.div>
                         )}
                       </div>
                       
-                      {/* Hover Overlay */}
-                      <div className={`absolute inset-0 bg-violet-500/20 transition-opacity duration-300
-                                    ${hoverPosition === index ? 'opacity-30' : 'opacity-0'}`} />
-                      
-                      {/* Film Strip Perforations */}
-                      <div className="absolute top-0 w-full h-8 flex justify-between px-2 pointer-events-none">
-                        <div className="w-4 h-4 rounded-full bg-black border border-white/20" />
-                        <div className="w-4 h-4 rounded-full bg-black border border-white/20" />
+                      {/* Film perforations adjusted for mobile */}
+                      <div className="absolute top-0 w-full h-6 sm:h-8 flex justify-between px-2">
+                        <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-black border border-white/20" />
+                        <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-black border border-white/20" />
                       </div>
-                      <div className="absolute bottom-0 w-full h-8 flex justify-between px-2 pointer-events-none">
-                        <div className="w-4 h-4 rounded-full bg-black border border-white/20" />
-                        <div className="w-4 h-4 rounded-full bg-black border border-white/20" />
+                      <div className="absolute bottom-0 w-full h-6 sm:h-8 flex justify-between px-2">
+                        <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-black border border-white/20" />
+                        <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-black border border-white/20" />
                       </div>
                     </motion.div>
                   ))}
@@ -304,7 +723,7 @@ const HeroSection = () => {
               initial={{ x: 100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1 }}
-              className="text-[160px] leading-none font-medium text-white/90 tracking-tight text-right"
+              className="text-4xl sm:text-6xl md:text-8xl lg:text-[160px] leading-none font-medium text-white/90 tracking-tight text-right"
             >
               <motion.span
                 initial={{ opacity: 0, y: 50 }}
@@ -315,37 +734,39 @@ const HeroSection = () => {
               </motion.span>
             </motion.h1>
 
-            {/* Bottom Navigation */}
+            {/* Bottom text with responsive adjustments */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.8 }}
-              className="mt-12 flex justify-between items-end"
+              className="mt-4 sm:mt-8 lg:mt-12 flex justify-between items-end"
             >
               <div className="max-w-md">
-                <p className="text-lg text-white/60">
-                  Full Stack Developer and Creative Innovator, crafting exceptional digital experiences.
-                </p>
+                <div className="space-y-2">
+                  <p className="text-sm sm:text-base lg:text-lg text-white/80 flex items-center gap-2 sm:gap-3 font-light tracking-wide">
+                    <span className="text-base sm:text-lg lg:text-xl text-violet-400">⚡</span>
+                    Full Stack Developer & Creative Innovator
+                  </p>
+                  <div className="relative">
+                    <p className="text-xs sm:text-sm lg:text-base text-white/60 pl-6 sm:pl-7 leading-relaxed">
+                      Crafting exceptional digital experiences with passion for innovation 
+                      <span className="inline-block animate-pulse ml-2">💫</span>
+                    </p>
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: "100%" }}
+                      transition={{ delay: 2.2, duration: 1 }}
+                      className="absolute -bottom-2 left-6 sm:left-7 h-px bg-gradient-to-r from-violet-500/50 via-violet-400/25 to-transparent" />
+                  </div>
+                </div>
               </div>
-              <nav className="flex gap-8">
-                {['Home', 'Work', 'About', 'Contact'].map((item) => (
-                  <motion.button
-                    key={item}
-                    whileHover={{ y: -2 }}
-                    className="group relative text-white/60 hover:text-white transition-colors duration-300"
-                  >
-                    {item}
-                    <div className="absolute -bottom-1 left-0 w-0 h-[1px] bg-violet-400
-                                  group-hover:w-full transition-all duration-300" />
-                  </motion.button>
-                ))}
-              </nav>
             </motion.div>
           </div>
         </div>
       </div>
-    </div>
+      </>
+      )}
+\    </div>
   );
 };
-
 export default HeroSection;
