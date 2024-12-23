@@ -148,7 +148,7 @@ const HeroSection = () => {
           <img
             src="http://res.cloudinary.com/dkyrtfk1u/image/upload/v1697563140/ablotx3mpzcysvrofysu.jpg"
             alt=""
-            className="w-full h-full object-cover filter blur-3xl opacity-30 scale-110"
+            className="w-full h-full object-cover filter blur-2xl opacity-40 scale-100"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A]" />
         </div>
