@@ -1,42 +1,23 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
-import { ExternalLink, ChevronDown, ArrowRight, Code, Sparkles } from 'lucide-react';
-
-const FloatingParticle = ({ delay = 0 }) => (
-  <motion.div
-    className="absolute w-1 h-1 bg-violet-400/30 rounded-full"
-    animate={{
-      y: [-20, -40, -20],
-      opacity: [0.2, 0.5, 0.2],
-      scale: [1, 1.2, 1],
-    }}
-    transition={{
-      duration: 3,
-      delay,
-      repeat: Infinity,
-      ease: "easeInOut"
-    }}
-  />
-);
+import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowUpRight, ArrowRight } from 'lucide-react';
 
 const HeroSection = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [activeSection, setActiveSection] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef(null);
-  const { scrollY } = useScroll();
-  
-  const imageScale = useTransform(scrollY, [0, 300], [1, 1.2]);
-  const imageY = useTransform(scrollY, [0, 300], [0, 50]);
-  const parallaxY = useTransform(scrollY, [0, 300], [0, -50]);
+  const [hoverPosition, setHoverPosition] = useState(null);
+
+  // Photo sections for the slider
+  const photoSections = ['Section 1', 'Section 2', 'Section 3', 'Section 4'];
 
   useEffect(() => {
-    setIsLoaded(true);
     const handleMouseMove = (e) => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
         setMousePosition({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
+          x: (e.clientX - rect.left) / rect.width,
+          y: (e.clientY - rect.top) / rect.height,
         });
       }
     };
@@ -44,304 +25,177 @@ const HeroSection = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Generate floating particles positions
-  const particles = Array.from({ length: 15 }, (_, i) => ({
-    left: Math.random() * 100,
-    top: Math.random() * 100,
-    delay: Math.random() * 2,
-  }));
-
   return (
-    <div ref={containerRef} className="relative min-h-screen bg-[#0A0A0A] overflow-hidden">
-      {/* Blurred background image with enhanced overlay */}
-      <motion.div 
-        className="absolute inset-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <img
-          src="http://res.cloudinary.com/dkyrtfk1u/image/upload/v1697563140/ablotx3mpzcysvrofysu.jpg"
-          alt="Background"
-          className="w-full h-full object-cover object-center filter blur-2xl opacity-40 scale-100"
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A] via-[#0A0A0A]/20 to-[#0A0A0A]/30" />
-      </motion.div>
-
-      {/* Floating particles */}
-      {particles.map((particle, i) => (
-        <div
-          key={i}
-          style={{
-            left: `${particle.left}%`,
-            top: `${particle.top}%`,
-          }}
-          className="absolute"
-        >
-          <FloatingParticle delay={particle.delay} />
-        </div>
-      ))}
-
-      {/* Animated gradient mesh */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute inset-0 bg-gradient-to-r from-violet-500/10 via-transparent to-fuchsia-500/10 animate-pulse" />
-      </div>
-
-      {/* Enhanced animated lines */}
-      <div className="absolute inset-0 opacity-20">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute h-px bg-gradient-to-r from-transparent via-violet-300 to-transparent w-full"
-            style={{ 
-              top: `${i * 5}%`,
-              filter: 'blur(1px)',
-            }}
-            animate={{
-              x: ['-100%', '100%'],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 3,
-              delay: i * 0.2,
-              repeat: Infinity,
-              ease: 'linear',
+    <div 
+      ref={containerRef}
+      className="relative h-screen overflow-hidden bg-[#0A0A0A]"
+    >
+      {/* Dynamic Background */}
+      <div className="absolute inset-0">
+        {/* Geometric Pattern Background */}
+        <div className="absolute inset-0 opacity-30">
+          <div 
+            className="absolute inset-0" 
+            style={{
+              backgroundImage: `
+                linear-gradient(to right, rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(139, 92, 246, 0.03) 1px, transparent 1px)
+              `,
+              backgroundSize: '60px 60px',
+              transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px)`,
+              transition: 'transform 0.2s ease-out'
             }}
           />
-        ))}
+        </div>
+
+        {/* Radial Gradient Overlay */}
+        <div 
+          className="absolute inset-0 opacity-50"
+          style={{
+            background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, 
+                        rgba(139, 92, 246, 0.15), 
+                        rgba(10, 10, 10, 0) 50%)`
+          }}
+        />
+
+        {/* Blurred Photo Background */}
+        <div className="absolute inset-0">
+          <img
+            src="http://res.cloudinary.com/dkyrtfk1u/image/upload/v1697563140/ablotx3mpzcysvrofysu.jpg"
+            alt=""
+            className="w-full h-full object-cover filter blur-3xl opacity-30 scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A]" />
+        </div>
       </div>
 
-      {/* Main content with enhanced animations */}
-      <div className="relative min-h-screen max-w-7xl mx-auto px-8">
-        <div className="min-h-screen flex items-center">
-          <motion.div 
-            className="relative z-10 w-full"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+      {/* Main Content */}
+      <div className="relative h-full max-w-7xl mx-auto px-8">
+        {/* Top Navigation */}
+        <motion.div 
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="flex justify-between items-center py-8"
+        >
+          <div className="text-white font-light tracking-wide">DK.</div>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            className="px-6 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 
+                     flex items-center gap-2 hover:border-violet-500/20 transition-all duration-300"
           >
-            <div className="grid grid-cols-12 gap-8 items-center">
-              {/* Left content with enhanced animations */}
-              <div className="col-span-6 space-y-12">
-                <motion.div 
-                  className="space-y-6"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  {/* Animated intro line */}
-                  <div className="flex items-center gap-4">
-                    <motion.div 
-                      className="h-px w-12 bg-gradient-to-r from-violet-400 to-fuchsia-400"
-                      initial={{ width: 0 }}
-                      animate={{ width: 48 }}
-                      transition={{ delay: 0.5, duration: 0.8 }}
-                    />
-                    <motion.span 
-                      className="text-violet-400 tracking-[0.2em] text-sm font-light"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.7 }}
-                    >
-                      <Sparkles className="inline-block w-4 h-4 mr-2" />
-                      WELCOME
-                    </motion.span>
-                  </div>
+            <span className="text-white/80 text-sm">VIEW RESUME</span>
+            <ArrowUpRight className="w-4 h-4 text-violet-400" />
+          </motion.button>
+        </motion.div>
 
-                  {/* Enhanced main title */}
-                  <div className="space-y-2 relative">
-                    <div className="text-white text-7xl font-light tracking-tighter">
-                      I'm
-                      <motion.span
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.3 }}
-                        className="ml-4 text-white relative"
-                      >
-                        Divya
-                        <motion.div
-                          className="absolute -bottom-2 left-0 h-px w-full bg-gradient-to-r from-violet-400 to-transparent"
-                          initial={{ scaleX: 0 }}
-                          animate={{ scaleX: 1 }}
-                          transition={{ delay: 1, duration: 1 }}
-                        />
-                      </motion.span>
-                    </div>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4 }}
-                      className="text-7xl font-bold tracking-tight relative"
-                    >
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-violet-300">
-                        Kaurani
-                      </span>
-                      <motion.div
-                        className="absolute -right-8 top-0 text-violet-400/40 text-lg"
-                        animate={{ 
-                          y: [0, -10, 0],
-                          opacity: [0.4, 0.8, 0.4]
-                        }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
-                      >
-                        <Code className="w-6 h-6" />
-                      </motion.div>
-                    </motion.div>
-                  </div>
-
-                  {/* Enhanced role description */}
-                  <div className="relative">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: '100%' }}
-                      transition={{ delay: 0.8, duration: 1 }}
-                      className="absolute bottom-0 left-0 h-px bg-gradient-to-r from-violet-400 to-transparent"
-                    />
-                    <p className="text-zinc-400 text-lg leading-relaxed py-2">
-                      <motion.span
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1 }}
-                      >
-                        Full Stack Developer crafting exceptional digital experiences
-                      </motion.span>
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* Enhanced action buttons */}
-                <motion.div 
-                  className="flex items-center gap-8"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
-                >
-                  <motion.button
-                    whileHover={{ scale: 1.02, gap: '1.5rem' }}
-                    whileTap={{ scale: 0.98 }}
-                    className="group px-8 py-4 bg-gradient-to-r from-violet-400 to-fuchsia-400 
-                             rounded-full text-black font-medium flex items-center gap-4 
-                             transition-all duration-300 relative overflow-hidden"
-                  >
-                    <span className="relative z-10">Explore Work</span>
-                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 relative z-10" />
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-fuchsia-400 to-violet-400 opacity-0 transition-opacity duration-300"
-                      whileHover={{ opacity: 1 }}
-                    />
-                  </motion.button>
-
-                  <motion.button
-                    whileHover={{ scale: 1.02, x: 5 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-8 py-4 text-violet-400 font-medium relative overflow-hidden group"
-                  >
-                    <span className="relative z-10">Get in Touch</span>
-                    <motion.div
-                      className="absolute bottom-0 left-0 w-full h-px bg-violet-400/30"
-                      whileHover={{ scaleX: 1 }}
-                      initial={{ scaleX: 0 }}
-                    />
-                  </motion.button>
-                </motion.div>
-              </div>
-
-              {/* Enhanced right content */}
-              <div className="col-span-6 relative">
-                {/* Enhanced animated text overlay */}
-                <motion.div
-                  className="absolute left-32 top-3/4 z-20 mix-blend-difference w-full text-center"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <div className="relative">
-                    {['DEVELOPER', 'INNOVATOR'].map((text, index) => (
-                      <motion.div
-                        key={text}
-                        className="absolute"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ 
-                          opacity: [0, 1, 0],
-                          y: [20, 0, -20]
-                        }}
-                        transition={{
-                          duration: 3,
-                          delay: index * 3,
-                          repeat: Infinity,
-                          repeatDelay: 6
-                        }}
-                      >
-                        <span className="text-white text-7xl font-bold tracking-tighter whitespace-nowrap">
-                          {text}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-                
-                {/* Enhanced profile image with parallax */}
-                <motion.div 
-                  className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden"
-                  style={{ scale: imageScale, y: imageY }}
-                >
-                  <motion.div
-                    className="absolute -inset-1 bg-gradient-to-r from-violet-400/20 to-fuchsia-400/20 blur-xl"
-                    animate={{
-                      opacity: [0.5, 0.8, 0.5],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  />
-                  <img
-                    src="http://res.cloudinary.com/dkyrtfk1u/image/upload/v1697563140/ablotx3mpzcysvrofysu.jpg"
-                    alt="Profile"
-                    className="w-full h-full object-cover object-center relative z-10"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent" />
-                </motion.div>
-              </div>
-            </div>
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20">
-            <motion.div 
-              className="bg-zinc-900/80 backdrop-blur-sm rounded-full px-8 py-4"
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5 }}
+        {/* Center Content */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-full">
+            {/* First Name */}
+            <motion.h1
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="text-[160px] leading-none font-medium text-white/90 tracking-tight"
             >
-              <nav className="flex gap-10">
-                <button className="text-zinc-400 hover:text-white transition-colors">Skills</button>
-                <button className="text-zinc-400 hover:text-white transition-colors">Experience</button>
-                <button className="text-zinc-400 hover:text-white transition-colors">Resume</button>
-                <button className="text-violet-400">Contact</button>
+              DIVYA
+            </motion.h1>
+
+            {/* Interactive Photo Slider */}
+            <div className="relative -my-16 w-full h-[300px] flex gap-1">
+              {[0, 1, 2, 3].map((index) => (
+                <motion.div
+                  key={index}
+                  className="relative flex-1 overflow-hidden"
+                  onHoverStart={() => setHoverPosition(index)}
+                  onHoverEnd={() => setHoverPosition(null)}
+                  animate={{
+                    flex: hoverPosition === index ? 2 : 1
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className={`absolute inset-0 transition-opacity duration-300
+                                ${hoverPosition === index ? 'opacity-100' : 'opacity-70'}`}>
+                    <img
+                      src="http://res.cloudinary.com/dkyrtfk1u/image/upload/v1697563140/ablotx3mpzcysvrofysu.jpg"
+                      alt="Divya Kaurani"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className={`absolute inset-0 bg-gradient-to-b from-[#0A0A0A] 
+                                  via-transparent to-[#0A0A0A] transition-opacity duration-300
+                                  ${hoverPosition === index ? 'opacity-30' : 'opacity-70'}`} />
+                  </div>
+                  
+                  {/* Hover Overlay */}
+                  <div className={`absolute inset-0 bg-violet-500/20 transition-opacity duration-300
+                                ${hoverPosition === index ? 'opacity-30' : 'opacity-0'}`} />
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Last Name */}
+            <motion.h1
+              initial={{ x: 100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="text-[160px] leading-none font-medium text-white/90 tracking-tight text-right"
+            >
+              KAURANI
+            </motion.h1>
+
+            {/* Description and Navigation */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="mt-12 flex justify-between items-end"
+            >
+              {/* Description */}
+              <div className="max-w-md">
+                <p className="text-lg text-white/60">
+                  Full Stack Developer and Creative Innovator, crafting exceptional digital experiences.
+                </p>
+              </div>
+
+              {/* Navigation */}
+              <nav className="flex gap-8">
+                {['Home', 'Work', 'About', 'Contact'].map((item) => (
+                  <motion.button
+                    key={item}
+                    whileHover={{ y: -2 }}
+                    className="group relative text-white/60 hover:text-white transition-colors duration-300"
+                  >
+                    {item}
+                    <div className="absolute -bottom-1 left-0 w-0 h-[1px] bg-violet-400
+                                  group-hover:w-full transition-all duration-300" />
+                  </motion.button>
+                ))}
               </nav>
             </motion.div>
           </div>
-          </motion.div>
         </div>
-      </div>
 
-      {/* Enhanced scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        animate={{
-          y: [0, 10, 0],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      >
-        <ChevronDown className="w-6 h-6 text-violet-400/50" />
-      </motion.div>
+        {/* Social Links */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="absolute bottom-8 left-8 flex items-center gap-6"
+        >
+          {['GH', 'LN', 'TW'].map((social) => (
+            <motion.button
+              key={social}
+              whileHover={{ y: -2 }}
+              className="group relative text-white/40 hover:text-white transition-colors duration-300"
+            >
+              {social}
+              <div className="absolute -bottom-1 left-0 w-0 h-[1px] bg-violet-400
+                            group-hover:w-full transition-all duration-300" />
+            </motion.button>
+          ))}
+        </motion.div>
+      </div>
     </div>
   );
 };
