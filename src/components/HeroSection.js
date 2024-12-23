@@ -140,9 +140,9 @@ const CustomCursor = () => {
 
   // Sample photo data with titles (replace with your actual photos and achievements)
   const photos = [
+      { url: DK, title: "Divya Kaurani" },
       { url: SIH24, title: "SIH-24 Winner" },
       { url: vsitr, title: "3rd Prize at VSITR Poster Competition" },
-      { url: DK, title: "Divya Kaurani" },
       { url: car6, title: "X-Aavishkar First Prize" },
       { url: york, title: "York IE - React Intern" },
       { url: xenesisposter, title: "Xenesis-Poster Competition Runner Up" },
