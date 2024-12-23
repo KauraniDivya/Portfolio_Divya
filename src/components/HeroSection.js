@@ -1,7 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, ArrowLeft, ArrowRight, ArrowUp, ArrowDown } from 'lucide-react';
-
+import DK from "../assets/DivyaSIH.jpg";
+import SIH24 from "../assets/car2.jpg";
+import SIH23 from "../assets/sih23.jpg";
+import ssip22 from "../assets/ssip22.jpg";
+import york from "../assets/york.JPG";
+import car5 from "../assets/car5.JPG";
+import car4 from "../assets/car4.JPG";
+import vsitr from "../assets/vsitr.JPG";
+import car6 from "../assets/car6.JPG";
+import car7 from "../assets/car7.JPG";
+import car8 from "../assets/car8.jpg";
+import car9 from "../assets/car9.JPG";
+import car10 from "../assets/car10.jpg";
+import winner from "../assets/winner.JPG";
 
 const CustomCursor = () => {
     const cursorRef = useRef(null);
@@ -233,16 +246,17 @@ const CustomCursor = () => {
 
   // Sample photo data with titles (replace with your actual photos and achievements)
   const photos = [
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar5.JPG?alt=media&token=678aa7e3-b719-448c-8dd7-7e8a0bcbbfa1", title: "Xenesis-2024" },
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar2.jpg?alt=media&token=cc72cafe-0c56-4bbd-b026-687cf67477ff", title: "SIH-24 Winner" },
-    { url: "http://res.cloudinary.com/dkyrtfk1u/image/upload/v1697563140/ablotx3mpzcysvrofysu.jpg", title: "Divya Kaurani" },
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Faf912b16-5927-4d25-ac5e-41cc7eaf2963%202.JPG?alt=media&token=45796db4-71da-4580-9fc9-f26ac7aa1e2a", title: " Team Saarthi - Smart India Hackathon 2024 Winner" },
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fsih23.png?alt=media&token=582a086e-673b-44f3-b398-4f333dbbcb1c", title: "Team Sankalp - UniteBharat - SIH'23 Finalist" },
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar6.JPG?alt=media&token=fe3d8b1c-8a23-483e-ba56-ccede1dc5752", title: "SSIP 2.0" },
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar7.JPG?alt=media&token=aa22b181-b333-4900-9929-328e8fdb307f", title: "3rd Prize at VSITR Poster Competition" },
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar8.jpg?alt=media&token=3c26bcb6-a7ae-4410-bcc5-5b180bd43c9f", title: "SSIP 2.0" },
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar10.jpg?alt=media&token=3c26bcb6-a7ae-4410-bcc5-5b180bd43c9f", title: "Xenesis Website Committee" },
-    { url: "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcar5.JPG?alt=media&token=678aa7e3-b719-448c-8dd7-7e8a0bcbbfa1", title: "Xenesis-2024" }
+      { url: SIH24, title: "SIH-24 Winner" },
+      { url: vsitr, title: "3rd Prize at VSITR Poster Competition" },
+      { url: DK, title: "Divya Kaurani" },
+      { url: ssip22, title: "SSIP 2.0" },
+      { url: SIH23, title: "SIH'23 Finalist" },
+      { url: york, title: "York IE - React Intern" },
+      { url: winner, title: "Team Saarthi - Smart India Hackathon 2024 Winner" },
+    { url: car7, title: "3rd Prize at VSITR Poster Competition" },
+    { url: car4, title: "Xenesis Website Committee" },
+    { url: car8, title: "SSIP 2.0" },
+    { url: car6, title: "SSIP 2.0" }
   ];
 
   useEffect(() => {
@@ -256,8 +270,29 @@ const CustomCursor = () => {
   }, []);
 
   // Modified maxSlides calculation based on device
-  const maxSlides = isMobile ? photos.length - 1 : photos.length - 1.5;
+  const maxSlides = isMobile ? photos.length - 1 : photos.length - 0.75;
+  useEffect(() => {
+    setIsLoading(false);
+    
+    // Ensure currentSlide stays within bounds
+    setCurrentSlide(prev => Math.min(prev, photos.length - 1));
 
+    const startAutoSlide = () => {
+      autoSlideTimer.current = setInterval(() => {
+        setCurrentSlide(prev => (prev + 1) % photos.length);
+      }, 5000);
+    };
+
+    const timer = setTimeout(startAutoSlide, 5000);
+
+    return () => {
+      clearTimeout(timer);
+      if (autoSlideTimer.current) {
+        clearInterval(autoSlideTimer.current);
+      }
+    };
+  }, [photos.length]);
+  
   useEffect(() => {
     // Initial loading animation
     setTimeout(() => {
@@ -445,41 +480,42 @@ const CustomCursor = () => {
 
 
               {/* Vertical Film Strip */}
-              <motion.div
+             {/* Vertical Film Strip */}
+             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.2 }}
                 className="mt-8 relative h-48"
               >
                 <div className="absolute left-0 top-0 bottom-0 w-full overflow-hidden">
-                  <motion.div
-                    animate={{
-                      y: -currentSlide * 100 + '%'
-                    }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="relative flex flex-col gap-4"
-                  >
-                    {photos.map((photo, index) => (
+                  <div className="relative h-full">
+                    <AnimatePresence initial={false}>
                       <motion.div
-                        key={index}
-                        className="relative w-full h-48 shrink-0"
-                        whileHover={{ scale: 1.02 }}
-                        onClick={() => setCurrentSlide(index)}
+                        key={currentSlide}
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -50 }}
+                        transition={{ 
+                          type: "spring",
+                          stiffness: 200,
+                          damping: 20,
+                          mass: 0.8
+                        }}
+                        className="absolute inset-0"
                       >
                         <img
-                          src={photo.url}
-                          alt={photo.title}
+                          src={photos[currentSlide].url}
+                          alt={photos[currentSlide].title}
                           className="w-full h-full object-cover rounded-xl"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-xl" />
                         <p className="absolute bottom-4 left-4 text-white font-medium">
-                          {photo.title}
+                          {photos[currentSlide].title}
                         </p>
                       </motion.div>
-                    ))}
-                  </motion.div>
+                    </AnimatePresence>
+                  </div>
                 </div>
-
                 {/* Slide Navigation */}
                 <div className="absolute -right-2 top-1/2 -translate-y-1/2 flex flex-col gap-2">
                   {photos.map((_, index) => (
@@ -561,7 +597,7 @@ const CustomCursor = () => {
           <img
             src="http://res.cloudinary.com/dkyrtfk1u/image/upload/v1697563140/ablotx3mpzcysvrofysu.jpg"
             alt=""
-            className="w-full h-full object-cover filter blur-2xl opacity-40 scale-110"
+            className="w-full h-full object-cover filter blur-xl opacity-50 scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A]" />
         </div>
@@ -662,7 +698,14 @@ const CustomCursor = () => {
                   animate={{
                     x: -currentSlide * (isMobile ? 100 : 25.25) + '%'
                   }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  transition={{ 
+                    type: "spring",
+                    stiffness: 200, // Reduced for smoother movement
+                    damping: 25,    // Adjusted for better control
+                    mass: 0.8,      // Added mass for more natural physics
+                    velocity: 2,    // Added initial velocity
+                    restSpeed: 0.5  // Lower rest speed for smoother stop
+                  }}
                 >
                   {photos.map((photo, index) => (
                     <motion.div
