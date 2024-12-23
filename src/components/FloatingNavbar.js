@@ -2,22 +2,50 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Layout, Code, FolderGit2, Mail } from 'lucide-react';
 
-const FloatingNavbar = ({ onNavClick }) => {
-    const [isMobile, setIsMobile] = useState(false);
+const FloatingNavbar = () => {
     const [activeTab, setActiveTab] = useState('Home');
+    const [isMobile, setIsMobile] = useState(false);
     const [isHovered, setIsHovered] = useState(null);
   
     useEffect(() => {
       const checkMobile = () => setIsMobile(window.innerWidth < 768);
       checkMobile();
       window.addEventListener('resize', checkMobile);
-      return () => window.removeEventListener('resize', checkMobile);
+      
+      const handleScroll = () => {
+        const sections = {
+          Home: 0,
+          TechStack: document.querySelector('section')?.offsetTop - 100,
+          Projects: document.getElementById('projects')?.offsetTop - 100,
+          Contact: document.getElementById('contact')?.offsetTop - 100
+        };
+  
+        const currentPosition = window.scrollY;
+        let activeSection = 'Home';
+  
+        Object.entries(sections).forEach(([section, offset]) => {
+          if (offset && currentPosition >= offset) {
+            activeSection = section;
+          }
+        });
+  
+        setActiveTab(activeSection);
+      };
+  
+      window.addEventListener('scroll', handleScroll);
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', checkMobile);
+      };
     }, []);
   
-    const handleClick = (item) => {
-      setActiveTab(item.name);
-      onNavClick(item.name);
+    const handleClick = (section) => {
+      setActiveTab(section);
+      const element = section === 'Home' ? 
+        window.scrollTo({ top: 0, behavior: 'smooth' }) :
+        document.querySelector(`#${section.toLowerCase()}`)?.scrollIntoView({ behavior: 'smooth' });
     };
+  
   
     const navItems = [
       { name: 'Home', icon: Layout, label: 'Homepage' },
@@ -31,7 +59,7 @@ const FloatingNavbar = ({ onNavClick }) => {
       
       return (
         <motion.button
-          onClick={() => handleClick(item)}
+        onClick={() => handleClick(item.name)}
           onHoverStart={() => setIsHovered(item.name)}
           onHoverEnd={() => setIsHovered(null)}
           className="group relative"

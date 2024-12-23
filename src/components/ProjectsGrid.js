@@ -7,13 +7,7 @@ import {
 } from 'lucide-react';
 import { g } from 'framer-motion/client';
 
-const categories = [
-  { id: 'all', label: 'All' },
-  { id: 'hackathons', label: 'Hackathons' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'certifications', label: 'Certifications' },
-  { id: 'events', label: 'Events' }
-];
+
 const achievements = [
     {
       id: 1,
@@ -693,29 +687,12 @@ const AchievementsShowcase = () => {
           className="text-center mb-16"
         >
           <Trophy className="w-12 h-12 text-violet-400 mx-auto mb-6" />
-          <h1 className="text-5xl font-light mb-4">Achievements & Projects</h1>
+          <h1 className="text-5xl font-light mb-4">Work</h1>
           <p className="text-zinc-400 max-w-2xl mx-auto">
             A showcase of hackathon victories, innovative projects, and technical accomplishments
           </p>
         </motion.div>
 
-       {/* Category Navigation (continued) */}
-       <div className="flex justify-center gap-4 mb-16 overflow-x-auto pb-4">
-          {categories.map((category) => (
-            <motion.button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-full text-sm transition-all whitespace-nowrap
-                ${selectedCategory === category.id 
-                  ? 'bg-gradient-to-r from-violet-400 to-fuchsia-400 text-black' 
-                  : 'bg-zinc-900/50 text-white hover:bg-zinc-800'}`}
-            >
-              {category.label}
-            </motion.button>
-          ))}
-        </div>
 
         {/* Project Grid */}
         <motion.div 

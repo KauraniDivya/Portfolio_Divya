@@ -176,12 +176,13 @@ const MarqueeGroup = ({ children, direction = 1 }) => (
 
   return (
     <div className="bg-[#0A0A0A] text-white overflow-hidden">
-       <div ref={refs.homeRef}>
-        <HeroSection />
-      </div>
+      <div id="home">
+  <HeroSection />
+</div>
+
 
       {/* Tech Stack with Infinite Marquee */}
-      <section ref={refs.techStackRef} className="py-32 relative">
+      <section id="techstack" className="py-32 relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(139,92,246,0.05),rgba(0,0,0,0))]" />
         
         <div className="max-w-7xl mx-auto px-8 mb-20">
@@ -230,12 +231,12 @@ const MarqueeGroup = ({ children, direction = 1 }) => (
         </div>
       </section>
 
-      <div ref={refs.projectsRef}>
-        <ProjectsGrid />
-      </div>
-      <div ref={refs.contactRef}>
-        <StyledFooter />
-      </div>
+      <div id="projects">
+  <ProjectsGrid />
+</div>
+<div id="contact">
+  <StyledFooter />
+</div>
       <FloatingNavbar onNavClick={scrollToSection} />
     </div>
   );
