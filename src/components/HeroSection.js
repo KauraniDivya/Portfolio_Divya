@@ -9,7 +9,7 @@ import york from "../assets/york.JPG";
 import car5 from "../assets/car5.JPG";
 import car4 from "../assets/car4.JPG";
 import vsitr from "../assets/vsitr.JPG";
-import car6 from "../assets/xenesis 2.jpg";
+import car6 from "../assets/xenesis2.jpg";
 import car7 from "../assets/car7.JPG";
 import car8 from "../assets/sih-23.jpg";
 import car9 from "../assets/car9.JPG";
@@ -445,13 +445,14 @@ const CustomCursor = () => {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 1.4 }}
-              className="p-6"
+              className="p-6 relative z-20"
             >
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => window.open('https://drive.google.com/file/d/15SF08CIWkB7XT8k56rnVhosrLKDITPks/view?usp=sharing', '_blank')}
                 className="w-full py-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 
-                          flex items-center justify-center gap-2 text-white/90"
+                          flex items-center justify-center gap-2 text-white/90 cursor-pointer z-10 relative"
               >
                 <span>VIEW RESUME</span>
                 <ArrowUpRight className="w-4 h-4 text-violet-400" />
@@ -493,7 +494,7 @@ const CustomCursor = () => {
               className="absolute inset-0"
             >
               <img
-                src={photos[currentSlide].url}
+                src={photos[currentSlide]?.url || ''}
                 alt=""
                 className="w-full h-full object-cover filter blur-2xl opacity-40 scale-110"
               />
@@ -510,7 +511,7 @@ const CustomCursor = () => {
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex justify-between items-center py-4 h-20 sm:h-24"
+          className="flex justify-between items-center py-4 h-20 sm:h-24 relative z-20"
         >
           <div className="relative text-white font-light tracking-wide">
             <img 
@@ -521,8 +522,9 @@ const CustomCursor = () => {
           </div>
           <motion.button
             whileHover={{ scale: 1.05 }}
+            onClick={() => window.open('https://drive.google.com/file/d/15SF08CIWkB7XT8k56rnVhosrLKDITPks/view?usp=sharing', '_blank')}
             className="px-3 sm:px-4 lg:px-6 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 
-                     flex items-center gap-2 hover:border-violet-500/20 transition-all duration-300"
+                     flex items-center gap-2 hover:border-violet-500/20 transition-all duration-300 cursor-pointer z-10 relative"
           >
             <span className="text-white/80 text-xs sm:text-sm">VIEW RESUME</span>
             <ArrowUpRight className="w-3 h-3 sm:w-4 sm:h-4 text-violet-400" />
@@ -622,8 +624,8 @@ const CustomCursor = () => {
                       <div className={`relative h-full transition-opacity duration-300
                                     ${hoverPosition === index ? 'opacity-100' : 'opacity-70'}`}>
                         <img
-                          src={photo.url}
-                          alt={photo.title}
+                          src={photo?.url || ''}
+                          alt={photo?.title || ''}
                           className="w-full h-full object-cover rounded-sm"
                         />
                         <div className={`absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/50 
@@ -640,7 +642,7 @@ const CustomCursor = () => {
                           >
                             <div className="bg-black/90 text-white text-xs sm:text-sm rounded-lg 
                                           backdrop-blur-sm border border-white/10 px-3 py-1.5 sm:px-4 sm:py-2">
-                              {photo.title}
+                              {photo?.title || ''}
                             </div>
                           </motion.div>
                         )}
@@ -709,7 +711,8 @@ const CustomCursor = () => {
       </div>
       </>
       )}
-\    </div>
+    </div>
   );
 };
+
 export default HeroSection;

@@ -3,10 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Trophy, Code, Star, Award, Github, Globe,
   Play, ExternalLink, CheckCircle, X,
-  ChevronLeft, ChevronRight
+  ChevronLeft, ChevronRight, Filter
 } from 'lucide-react';
-import { g } from 'framer-motion/client';
-
 
 const achievements = [
     {
@@ -41,12 +39,12 @@ const achievements = [
     },
     {
       id: 2,
-      heroimage:'https://i.ibb.co/Nn7ZzT9/odoo.png',
+      heroimage:'../assets/odoo.png',
       type: 'hackathons',
       title: 'Odoo Combat 2024 Finalist',
       event: 'Odoo Coding Combat',
       date: '2024',
-      image: 'https://i.ibb.co/Nn7ZzT9/odoo.png',
+      image: '../assets/odoo.png',
       description: 'Competed among 600+ teams, implemented Diet Recommendation System and Library Management System',
       stack: ['React', 'Redux', 'Node.js', 'MongoDB', 'Firebase', 'Tailwind', 'Chart.js'],
       highlights: [
@@ -69,7 +67,7 @@ const achievements = [
       title: 'NPTEL Star',
       event: 'NPTEL Discipline Stars',
       date: '2024',
-      image: 'https://i.ibb.co/s61Mx2S/nptel.png',
+      image: '../assets/nptel.png',
       description: 'Recognized as NPTEL Star for completing five programming domain courses with excellence',
       stack: ['DSA in Java', 'Cloud Computing', 'Programming in Java',  'Database Management System', 'Introduction to Machine Learning'],
       highlights: [
@@ -88,310 +86,242 @@ const achievements = [
     },
     {
       id: 4,
-      heroimage:'https://i.ibb.co/c28GMz2/streamit.jpg',
+      heroimage:'../assets/streamit.jpg',
       type: 'projects',
       title: 'StreamIt!',
       category: 'Streaming Platform',
-      image: 'https://i.ibb.co/c28GMz2/streamit.jpg',
+      image: '../assets/streamit.jpg',
       description: 'Robust, scalable streaming application for YouTube live streaming and recording',
       stack: ['Docker', 'FFmpeg', 'RTMP', 'Socket.io'],
       features: [
         'Live YouTube Streaming',
         'Video Recording & Download',
-        'Container Isolation',
-        'Real-time Communication'
-      ],
-      highlights: [
-        'Containerized Application',
-        'Efficient Video Processing',
-        'Real-time Streaming Capabilities',
-        'Scalable Architecture'
+        'Real-time Chat Integration',
+        'Multi-platform Support',
+        'Custom RTMP Server'
       ],
       links: {
         github: '#',
-        live: '#',
-        demo: '#'
+        live: '#'
       }
     },
     {
       id: 5,
-      heroimage:'https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%207.42.10%E2%80%AFPM.png?alt=media&token=8381e6fd-eb5a-4f18-812e-beac80162f22',
-      galleryImages: [
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%207.43.26%E2%80%AFPM.png?alt=media&token=7d39fce8-bf92-4469-a695-cd337d1e350a",
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%209.02.32%E2%80%AFPM.png?alt=media&token=7a357659-b42f-4f96-a94d-dd83c1a575a9",
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%209.03.54%E2%80%AFPM.png?alt=media&token=f1fce734-47c6-48c7-9acc-25e40463e118",
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%209.04.59%E2%80%AFPM.png?alt=media&token=2060891f-59ca-45d8-b36f-eb04a1230fa3"
-        ],
+      heroimage:'../assets/xenesis.jpg',
       type: 'projects',
-      title: 'IPL Dashboard',
-      category: 'Sports Analytics',
-      image: 'https://i.ibb.co/WxjtBc3/Screenshot-2024-12-21-at-3-03-14-PM.png',
-      description: 'Dynamic platform providing real-time updates and comprehensive IPL information using web scraping',
-      stack: ['React', 'Node.js', 'Cheerio', 'Puppeteer', 'Tailwind'],
+      title: 'Xenesis',
+      category: 'E-commerce Platform',
+      image: '../assets/xenesis.jpg',
+      description: 'Full-stack e-commerce platform with advanced features and modern UI/UX',
+      stack: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Redux'],
       features: [
-        'Live Scores',
-        'IPL Points Table',
-        'Team Information',
-        'Stadium Details',
-        'Match Results & Fixtures'
+        'User Authentication & Authorization',
+        'Product Management',
+        'Shopping Cart & Checkout',
+        'Payment Integration',
+        'Admin Dashboard'
       ],
       links: {
         github: '#',
-        live: '#',
-        docs: '#',
-        demo: '#'
+        live: '#'
       }
     },
     {
       id: 6,
-      heroimage:'https://i.ibb.co/fqWC06Z/Screenshot-2024-12-21-at-3-08-06-PM.png',
-      galleryImages: [
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%2011.20.20%E2%80%AFPM.png?alt=media&token=0520c7b0-5b52-4a90-816b-147170836756",
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%2011.20.31%E2%80%AFPM.png?alt=media&token=919dcb1d-8259-4773-8f19-687a5031aab2",
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%2011.20.56%E2%80%AFPM.png?alt=media&token=29f74db9-b481-4975-ad0e-fe6c5d0c427f"
-      ],
+      heroimage:'../assets/portfolio.jpg',
       type: 'projects',
-      title: 'VisioBrain',
-      category: 'AI Platform',
-      image: 'https://i.ibb.co/fqWC06Z/Screenshot-2024-12-21-at-3-08-06-PM.png',
-      description: 'Revolutionary one-click platform for data analysis with AI capabilities',
-      stack: ['MERN Stack', 'Python', 'Firebase', 'Machine Learning'],
+      title: 'Portfolio Website',
+      category: 'Personal Portfolio',
+      image: '../assets/portfolio.jpg',
+      description: 'Modern, responsive portfolio website showcasing skills and projects',
+      stack: ['React', 'Framer Motion', 'Tailwind CSS', 'Vite'],
       features: [
-        'One-Click Analysis',
-        'Universal Data Format Support',
-        'Automated Operations',
-        'Interactive Visualizations',
-        'Custom Analysis Options'
-      ],
-      highlights: [
-        'Automated Data Analysis',
-        'ML Model Integration',
-        'Visual Data Storytelling',
-        'Security Implementation'
+        'Responsive Design',
+        'Smooth Animations',
+        'Dark Theme',
+        'Interactive Elements',
+        'Performance Optimized'
       ],
       links: {
-        demo: '#',
-        presentation: '#'
+        github: '#',
+        live: '#'
       }
     },
     {
       id: 7,
-      heroimage:'https://i.ibb.co/yFcjvFr/xenesisp.jpg',
-      galleryImages: [
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%209.11.26%E2%80%AFPM.png?alt=media&token=ad3b2541-d895-4f34-ba6b-bd7d1e70bbcf",
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%209.11.02%E2%80%AFPM.png?alt=media&token=761e2ff6-0631-4bee-927f-8a99ced6b126",
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fxen.png?alt=media&token=cd0668cf-58e9-4273-b3be-fa7b75d36e0a",
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%209.10.16%E2%80%AFPM.png?alt=media&token=72199898-8a6c-49bd-aaae-e6b6630639e7"
-        ],
-      type: 'events',
-      title: 'Xenesis 2024',
-      event: 'College Tech Fest',
-      date: '2024',
-      image: 'https://i.ibb.co/yFcjvFr/xenesisp.jpg',
-      description: 'Contributed to the success of Xenesis 2024 as part of the Website Committee',
-      highlights: [
-        'Website Committee Member',
-        'ReactJS Development',
-        'Animation Implementation',
-        'Second Prize in Poster Making',
-        'First Prize in X-Avishkar'
+      heroimage:'../assets/voice-ai.jpg',
+      type: 'projects',
+      title: 'Voice AI Experiment',
+      category: 'AI Voice Assistant',
+      image: '../assets/voice-ai.jpg',
+      description: 'Flexible voice-to-voice AI system with multiple personality companions including Detective Mr. X, Dr. Sage, Coach Elite, and Alex',
+      stack: ['React', 'Vite', 'Web Speech API', 'Gemini AI', 'ElevenLabs API', 'Vercel'],
+      features: [
+        'Multiple AI Personalities',
+        'Voice-to-Voice Interaction',
+        'Real-time Speech Processing',
+        'Personality Switching',
+        'Premium Voice Synthesis'
       ],
-      stack: ['React', 'Animation Libraries', 'Web Development']
+      highlights: [
+        'Built 5 unique AI personalities',
+        'Seamless voice conversation flow',
+        'Instant personality switching',
+        'Advanced prompt engineering',
+        'Learning experiment with AI tools'
+      ],
+      links: {
+        github: 'https://github.com/yourusername/voice-ai-experiment',
+        live: 'https://voice-ai-experiment.vercel.app'
+      }
     },
     {
       id: 8,
-      heroimage:'https://i.ibb.co/B46JGH1/collegpt.png',
-      galleryImages: [
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%209.18.36%E2%80%AFPM.png?alt=media&token=79470013-a248-4add-90c3-305b8b7dec26",
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%209.18.04%E2%80%AFPM.png?alt=media&token=5dd737e2-6e4f-4067-97f0-84172f272220",
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fcollegpt.png?alt=media&token=24f1c0ee-61c7-4f8a-b2fb-1e8c277880a9",
-        "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%209.15.41%E2%80%AFPM.png?alt=media&token=60df7cfd-0e06-4b9a-8363-9784d68010bb"
-      ],
+      heroimage:'../assets/voice-ai-experiment.jpg',
       type: 'projects',
-      title: 'ColleGPT',
-      category: 'Education Platform',
-      image: 'https://i.ibb.co/B46JGH1/collegpt.png',
-      description: 'Ultimate College Companion revolutionizing academic journey with comprehensive resources',
-      stack: ['MERN Stack', 'MongoDB', 'Express', 'React', 'Node.js'],
+      title: 'Voice AI Experiment Complete! 🎙️✨',
+      category: 'AI Voice Assistant',
+      image: '../assets/voice-ai-experiment.jpg',
+      description: 'Built a flexible voice-to-voice AI system with multiple personality companions! Features Detective Mr. X, Dr. Sage, Coach Elite, Alex, and Custom AI personalities.',
+      stack: ['React', 'Vite', 'Web Speech API', 'Google Gemini AI', 'ElevenLabs API', 'Chrome Speech Synthesis', 'Vercel'],
       features: [
-        'गीता पाठ Integration',
-        'Xclusive Notes',
-        'Real-Time Event Updates',
-        'Handy Cheat Sheets',
-        'In-Depth Learning Guides'
+        '🕵️‍♂️ Detective Mr. X - Witty problem solver with analytical charm',
+        '🧠 Dr. Sage - Compassionate therapist with gentle wisdom',
+        '💪 Coach Elite - High-energy motivational performance coach',
+        '👋 Alex - Your fun-loving, loyal conversation buddy',
+        '⚡ Custom AI - Design your own unique personality'
       ],
       highlights: [
-        'User-Friendly Interface',
-        'Comprehensive Study Materials',
-        'Community Features',
-        'Event Management'
+        '🗣️ Speak → Web Speech API captures',
+        '🧠 Process → Gemini AI responds with personality',
+        '🔊 Speak back → ElevenLabs converts to voice',
+        'Switch personalities instantly!',
+        'Each companion has unique prompt that transforms conversation style'
       ],
-      links: {
-        live: 'www.collegpt.com'
-      }
-    },
-    {
-      id: 9,
-      heroimage:'https://i.ibb.co/LxmR9v9/Screenshot-2024-12-21-at-5-19-47-PM.png',
-        galleryImages: [
-            "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%2011.23.36%E2%80%AFPM.png?alt=media&token=0c35cb85-e3e1-474d-9869-94f38bf9bb86",
-            "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2Fsih23.png?alt=media&token=582a086e-673b-44f3-b398-4f333dbbcb1c",
-            "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%2011.24.32%E2%80%AFPM.png?alt=media&token=d01e46cf-c3ad-4330-9872-0b7b095c0112",
-            "https://firebasestorage.googleapis.com/v0/b/xenesis-ff41b.appspot.com/o/portfolio%2FScreenshot%202024-12-22%20at%2011.23.52%E2%80%AFPM.png?alt=media&token=7714394b-1dff-45f9-ab56-bd6d15744677"
-        ],
-
-      type: 'hackathons',
-      title: 'SIH 2023 Finalist',
-      event: 'Smart India Hackathon',
-      date: '2023',
-      image: 'https://i.ibb.co/LxmR9v9/Screenshot-2024-12-21-at-5-19-47-PM.png',
-      description: 'Created UNITEBHARAT - platform for student projects in Smart Education domain',
-      location: 'Manipal Institute of Technology Jaipur',
-      stack: ['React', 'Node.js', 'MongoDB', 'Express', 'Recharts'],
-      highlights: [
-        '36+ Hour Hackathon',
-        'Smart Education Domain',
-        'Problem Statement SIH-1369',
-        'Live Session with PM',
-        'Collaborative Development'
-      ]
-    },
-    {
-      id: 10,
-      heroimage:'https://i.ibb.co/7jR1Mn0/btb.png',
-      type: 'hackathons',
-      title: 'Break The Barrier Winner',
-      event: 'BTB Hackathon',
-      date: '2022',
-      image: 'https://i.ibb.co/7jR1Mn0/btb.png',
-      description: 'Won national level hackathon under MongoDB category with college canteen website',
-      stack: ['HTML', 'CSS', 'JavaScript', 'Node.js', 'MongoDB'],
-      highlights: [
-        'National Level Winner',
-        'MongoDB Category',
-        'Built "THE HIDE OUT"',
-        'Full-Stack Implementation'
+      learnings: [
+        'The real power isn\'t in the APIs - it\'s in crafting personality and conversation flow 🎭',
+        'Voice interfaces create surprisingly intimate AI interactions',
+        'Prompt engineering can completely transform user experience',
+        'Simple architecture can enable powerful experiments 🚀',
+        'No memory between sessions, no complex architecture - just pure exploration'
       ],
       links: {
-        github: '#'
+        github: 'https://lnkd.in/dFcYbQNG',
+        live: 'https://lnkd.in/d7aX--tK'
       }
     }
-  ];
-// Card Component
-const Card = ({ item, onClick }) => {
-    const [imageLoaded, setImageLoaded] = useState(false);
-    const [isHovered, setIsHovered] = useState(false);
-  
-    const handleClick = (e) => {
-      e.stopPropagation();
-      onClick(item);
-    };
-  
-    return (
-      <motion.div
-        layout
-        onClick={handleClick}
-        onHoverStart={() => setIsHovered(true)}
-        onHoverEnd={() => setIsHovered(false)}
-        className="group relative rounded-3xl overflow-hidden bg-[#14141F] border border-white/[0.02]
-                   cursor-pointer transition-all duration-300 hover:-translate-y-1"
-      >
-        {/* Background with Image */}
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Image with fallback and loading state handling */}
-          <motion.div
-            animate={{ scale: isHovered ? 1.1 : 1 }}
-            transition={{ duration: 1.2, ease: [0.34, 1.56, 0.64, 1] }}
-            className="relative h-full w-full"
-          >
-            <img
-              src={item.heroimage}
-              alt={item.title}
-              onLoad={() => setImageLoaded(true)}
-              className={`h-full w-full object-cover transition-opacity duration-500 ease-out
-                        ${imageLoaded ? 'opacity-40' : 'opacity-0'}`}
-            />
-            
-            {/* Gradient Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#14141F] via-[#14141F]/80 to-transparent" />
-            <div className="absolute inset-0 bg-[#14141F]/40" />
-          </motion.div>
-        </div>
-  
-        {/* Content Container */}
-        <div className="relative h-[400px] p-8 flex flex-col">
-          {/* Top Section */}
-          <div className="flex items-start justify-between">
-            {/* Type Badge */}
-            <div className="flex items-center gap-2 px-4 py-2 rounded-full 
-                           bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm">
-              <div className="p-1.5 rounded-full bg-gradient-to-b from-violet-500/20 to-fuchsia-500/20">
-                {item.type === 'hackathons' && <Trophy className="w-4 h-4 text-violet-300" />}
-                {item.type === 'projects' && <Code className="w-4 h-4 text-violet-300" />}
-                {item.type === 'certifications' && <Award className="w-4 h-4 text-violet-300" />}
-                {item.type === 'events' && <Star className="w-4 h-4 text-violet-300" />}
-              </div>
-              <span className="text-sm text-white/90 font-light">
-                {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
-              </span>
-            </div>
-          </div>
-  
-          {/* Bottom Section */}
-          <div className="mt-auto space-y-6">
-            {/* Title & Description */}
-            <div className="space-y-3">
-              <h3 className="text-2xl text-white font-medium leading-tight">
-                {item.title}
-              </h3>
-              <p className="text-[15px] leading-relaxed text-white/60 line-clamp-2">
-                {item.description}
-              </p>
-            </div>
-  
-            {/* Tech Stack */}
-            <div className="flex flex-wrap gap-2">
-              {item.stack?.slice(0, 3).map((tech) => (
-                <span 
-                  key={tech}
-                  className="px-3 py-1.5 rounded-lg text-[13px] bg-white/[0.03] text-white/70
-                            border border-white/[0.08] hover:border-violet-500/20
-                            hover:bg-violet-500/[0.02] transition-colors duration-300"
-                >
-                  {tech}
-                </span>
-              ))}
-              {item.stack?.length > 3 && (
-                <span className="px-2 py-1.5 text-[13px] text-white/40">
-                  +{item.stack.length - 3} more
-                </span>
-              )}
-            </div>
-  
-            {/* View Details Link */}
-            <button
-              onClick={handleClick}
-              className="flex items-center gap-2 text-[14px] text-white/80 group/link
-                       hover:text-white transition-colors duration-300"
-            >
-              <span>View Details</span>
-              <motion.div
-                animate={{ x: isHovered ? 4 : 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <ChevronRight className="w-4 h-4 text-violet-300 group-hover/link:text-violet-200" />
-              </motion.div>
-            </button>
-          </div>
-        </div>
-  
-        {/* Hover Glow Effect */}
-        <div className="absolute -inset-[1px] rounded-[31px] opacity-0 group-hover:opacity-100
-                       bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10
-                       blur-xl transition-opacity duration-500" />
-      </motion.div>
-    );
+];
+
+// Enhanced Card Component
+const ProjectCard = ({ item, onClick }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleClick = (e) => {
+    e.stopPropagation();
+    onClick(item);
   };
+
+  const getTypeIcon = (type) => {
+    switch (type) {
+      case 'hackathons': return <Trophy className="w-4 h-4 text-violet-400" />;
+      case 'projects': return <Code className="w-4 h-4 text-violet-400" />;
+      case 'certifications': return <Award className="w-4 h-4 text-violet-400" />;
+      case 'events': return <Star className="w-4 h-4 text-violet-400" />;
+      default: return <Code className="w-4 h-4 text-violet-400" />;
+    }
+  };
+
+  return (
+    <motion.div
+      layout
+      onClick={handleClick}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      className="group relative bg-zinc-900/50 backdrop-blur-sm border border-white/10 
+                 rounded-xl overflow-hidden cursor-pointer transition-all duration-300
+                 hover:border-violet-500/30 hover:bg-zinc-800/50 h-[500px] flex flex-col"
+      whileHover={{ y: -8 }}
+    >
+      {/* Image Container */}
+      <div className="relative h-48 overflow-hidden flex-shrink-0">
+        <motion.img
+          src={item.heroimage}
+          alt={item.title}
+          onLoad={() => setImageLoaded(true)}
+          className={`w-full h-full object-cover transition-all duration-500
+                    ${imageLoaded ? 'opacity-100' : 'opacity-0'}
+                    ${isHovered ? 'scale-110' : 'scale-100'}`}
+        />
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/80 via-transparent to-transparent" />
+        
+        {/* Type Badge */}
+        <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 
+                       bg-zinc-900/80 backdrop-blur-sm border border-white/20 rounded-full">
+          {getTypeIcon(item.type)}
+          <span className="text-xs text-white/90 font-medium capitalize">
+            {item.type}
+          </span>
+        </div>
+
+        {/* Date Badge */}
+        <div className="absolute top-4 right-4 px-3 py-1.5 
+                       bg-zinc-900/80 backdrop-blur-sm border border-white/20 rounded-full">
+          <span className="text-xs text-white/70">{item.date}</span>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-6 flex flex-col flex-1">
+        {/* Title */}
+        <h3 className="text-xl font-semibold text-white group-hover:text-violet-200 transition-colors duration-300 mb-3">
+          {item.title}
+        </h3>
+
+        {/* Description */}
+        <p className="text-sm text-white/60 line-clamp-3 leading-relaxed mb-4 flex-1">
+          {item.description}
+        </p>
+
+        {/* Tech Stack */}
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {item.stack?.slice(0, 4).map((tech) => (
+            <span 
+              key={tech}
+              className="px-2 py-1 text-xs bg-zinc-800/50 text-white/70 rounded-md
+                        border border-white/10 hover:border-violet-500/30 transition-colors duration-300"
+            >
+              {tech}
+            </span>
+          ))}
+          {item.stack?.length > 4 && (
+            <span className="px-2 py-1 text-xs text-white/40">
+              +{item.stack.length - 4}
+            </span>
+          )}
+        </div>
+
+        {/* View Details Button */}
+        <motion.button
+          onClick={handleClick}
+          className="flex items-center gap-2 text-sm text-violet-400 hover:text-violet-300 
+                   transition-colors duration-300 group/btn mt-auto"
+          whileHover={{ x: 4 }}
+        >
+          <span>View Details</span>
+          <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-0.5 transition-transform duration-300" />
+        </motion.button>
+      </div>
+
+      {/* Hover Glow Effect */}
+      <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100
+                     bg-gradient-to-r from-violet-500/5 to-purple-500/5
+                     transition-opacity duration-500 pointer-events-none" />
+    </motion.div>
+  );
+};
 
 // Detail Modal Component
 
@@ -573,7 +503,7 @@ const DetailModal = ({ item: initialItem, items, onClose }) => {
             {/* Content Section */}
             <div className="relative md:h-[800px] overflow-y-auto">
               {/* Blurred background for content section */}
-                              <div className="absolute inset-0">
+              <div className="absolute inset-0">
                 <img
                   src={images[currentImageIndex]}
                   alt=""
@@ -636,6 +566,21 @@ const DetailModal = ({ item: initialItem, items, onClose }) => {
                   </div>
                 )}
 
+                {/* Learnings */}
+                {currentItem.learnings && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-light text-white">What I Learned</h3>
+                    <div className="space-y-3">
+                      {currentItem.learnings.map((learning, index) => (
+                        <div key={index} className="flex items-start gap-3">
+                          <div className="w-2 h-2 rounded-full bg-violet-400 mt-2 shrink-0" />
+                          <span className="text-zinc-400 leading-relaxed">{learning}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Links */}
                 {currentItem.links && (
                   <div className="flex flex-wrap gap-4">
@@ -669,43 +614,84 @@ const DetailModal = ({ item: initialItem, items, onClose }) => {
 
 
 // Main Component
-const AchievementsShowcase = () => {
+const ProjectsGrid = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const categories = [
+    { id: 'all', label: 'All', icon: <Code className="w-4 h-4" /> },
+    { id: 'hackathons', label: 'Hackathons', icon: <Trophy className="w-4 h-4" /> },
+    { id: 'projects', label: 'Projects', icon: <Code className="w-4 h-4" /> },
+    { id: 'certifications', label: 'Certifications', icon: <Award className="w-4 h-4" /> }
+  ];
 
   const filteredAchievements = achievements.filter(
     item => selectedCategory === 'all' || item.type === selectedCategory
   );
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white py-20">
+    <section className="py-24 relative">
       <div className="max-w-7xl mx-auto px-8">
         {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <Trophy className="w-12 h-12 text-violet-400 mx-auto mb-6" />
-          <h1 className="text-5xl font-light mb-4">Work</h1>
-          <p className="text-zinc-400 max-w-2xl mx-auto">
+          <h2 className="text-4xl font-light text-white mb-4">
+            Projects & Achievements
+          </h2>
+          <p className="text-lg text-white/60 max-w-2xl mx-auto">
             A showcase of hackathon victories, innovative projects, and technical accomplishments
           </p>
         </motion.div>
 
+        {/* Filter Tabs */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="flex justify-center mb-12"
+        >
+          <div className="flex gap-2 p-1 bg-zinc-900/50 backdrop-blur-sm border border-white/10 rounded-xl">
+            {categories.map((category) => (
+              <motion.button
+                key={category.id}
+                onClick={() => setSelectedCategory(category.id)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
+                          ${selectedCategory === category.id 
+                            ? 'bg-violet-500/20 text-violet-300 border border-violet-500/30' 
+                            : 'text-white/60 hover:text-white/80 hover:bg-white/5'}`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {category.icon}
+                {category.label}
+              </motion.button>
+            ))}
+          </div>
+        </motion.div>
 
-        {/* Project Grid */}
+        {/* Projects Grid */}
         <motion.div 
           layout
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           <AnimatePresence mode="popLayout">
-            {filteredAchievements.map((item) => (
-              <Card 
+            {filteredAchievements.map((item, index) => (
+              <motion.div
                 key={item.id}
-                item={item}
-                onClick={() => setSelectedItem(item)}
-              />
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+              >
+                <ProjectCard 
+                  item={item}
+                  onClick={() => setSelectedItem(item)}
+                />
+              </motion.div>
             ))}
           </AnimatePresence>
         </motion.div>
@@ -721,8 +707,8 @@ const AchievementsShowcase = () => {
           )}
         </AnimatePresence>
       </div>
-    </div>
+    </section>
   );
 };
 
-export default AchievementsShowcase;
+export default ProjectsGrid;
